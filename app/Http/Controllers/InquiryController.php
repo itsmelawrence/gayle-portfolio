@@ -40,7 +40,7 @@ class InquiryController extends Controller
         }
 
         try {
-            Mail::to($recipient)->send(new InquiryReceived($lead->only(['name', 'email', 'company', 'service', 'details'])));
+            Mail::to($recipient)->send(new InquiryReceived($lead));
             $lead->update(['notified_at' => now()]);
         } catch (Throwable $e) {
             report($e);

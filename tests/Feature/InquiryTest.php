@@ -48,7 +48,7 @@ class InquiryTest extends TestCase
 
         Mail::assertSent(InquiryReceived::class, fn ($mail) => $mail->hasTo('gayle@example.com')
             && $mail->hasReplyTo('sam@company.com')
-            && $mail->inquiry['service'] === 'Marketing automation');
+            && $mail->lead->service === 'Marketing automation');
     }
 
     public function test_form_post_without_javascript_redirects_back_to_contact(): void
@@ -114,5 +114,23 @@ class InquiryTest extends TestCase
 
         $this->assertDatabaseCount('leads', 1);
         Http::assertSent(fn ($request) => $request['secret'] === 'secret' && $request['response'] === 'good-token');
+    }
+
+    public function test_notification_email_shows_every_submitted_field_safely(): void
+    {
+        $lead = Lead::create([...$this->inquiry, 'details' => "Line one\n<script>alert(1)</script>", 'utm_source' => 'linkedin', 'landing_page' => '/?utm_source=linkedin']);
+        $mail = new \App\Mail\InquiryReceived($lead);
+
+        $mail->assertHasSubject('New inquiry from Sam Lee · Marketing automation');
+        $mail->assertSeeInHtml('Sam Lee');
+        $mail->assertSeeInHtml('mailto:sam@company.com', false);
+        $mail->assertSeeInHtml('Acme');
+        $mail->assertSeeInHtml('Marketing automation');
+        $mail->assertSeeInHtml('Line one<br />', false);
+        $mail->assertDontSeeInHtml('<script>alert(1)</script>', false);
+        $mail->assertSeeInHtml('linkedin');
+        $mail->assertSeeInHtml('Lead #'.$lead->id);
+        $mail->assertSeeInText('Company:  Acme');
+        $mail->assertSeeInText('Project details');
     }
 }

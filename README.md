@@ -26,6 +26,7 @@ Every inquiry is saved to the `leads` table first, then emailed to `PORTFOLIO_EM
 - **Stored per lead:** name, email, company, service, details, `status` (`new` by default; use `contacted`, `won`, `lost`), first-visit attribution (`utm_source`, `utm_medium`, `utm_campaign`, `referrer`, `landing_page`), IP address and user agent.
 - **Spam protection:** Cloudflare Turnstile (checked server-side), a hidden honeypot field that silently drops bots, and a rate limit of 5 submissions a minute per IP.
 - **Turnstile** turns on when `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are set. With them unset (local development) the widget is hidden and the check is skipped.
+- **Notification email:** a styled HTML email in the site's palette (plus a plain-text version) with every submitted field, a Reply button, where the visitor came from, and the submission time in `PORTFOLIO_TIMEZONE` (defaults to UTC).
 - **Viewing leads:** `php artisan tinker`, then `App\Models\Lead::latest()->get()`, or connect a database client to the Laravel Cloud database.
 
 ## Before launch

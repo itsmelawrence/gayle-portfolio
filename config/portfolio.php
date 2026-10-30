@@ -17,6 +17,9 @@ return [
     // Cutout portrait (transparent background) shown in the hero, relative to public/. Set to null to hide it.
     'portrait' => 'images/gayle.webp',
 
+    // Time zone used for timestamps in the inquiry notification email.
+    'timezone' => env('PORTFOLIO_TIMEZONE', 'UTC'),
+
     // Chat bubble beside the hero portrait (types itself in, links to the contact form). Set to null to hide it.
     // Reads as a follow-up to the hero's "Currently" card (three active clients).
     'availability' => 'Three clients and counting. I’m ready to onboard yours next!',
