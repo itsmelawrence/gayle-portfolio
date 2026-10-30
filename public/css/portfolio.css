@@ -441,6 +441,9 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px soli
 .err:empty{display:none}
 .form-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px}
 .form-foot .btn{border:none;cursor:pointer}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.turnstile:has(.cf-turnstile:empty){display:none}
+.form-note{grid-column:1/-1;margin:-4px 0 0;color:var(--muted);font-size:.85rem}
 .status{font-size:.95rem;font-weight:500}
 @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
 @media (max-width:560px){form{grid-template-columns:1fr}}

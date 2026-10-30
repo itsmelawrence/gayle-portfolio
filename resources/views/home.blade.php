@@ -161,8 +161,12 @@
           @include('partials.contact-link', ['label' => 'Based in', 'value' => $contact['location'], 'placeholder' => 'City, time zone'])
         </ul>
       </div>
-      <form id="inquiry" action="{{ route('inquiries.store') }}" method="POST" data-connected="{{ $contact['email'] ? 'true' : 'false' }}">
+      <form id="inquiry" action="{{ route('inquiries.store') }}" method="POST">
         @csrf
+        {{-- Honeypot: hidden from people and screen readers; bots that fill it are dropped quietly --}}
+        <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+        {{-- Attribution, filled in by portfolio.js from the first page view of the visit --}}
+        @foreach (['utm_source', 'utm_medium', 'utm_campaign', 'referrer', 'landing_page'] as $field)<input type="hidden" name="{{ $field }}">@endforeach
         <div class="field">
           <label for="f-name">Name</label>
           <input id="f-name" name="name" value="{{ old('name') }}" autocomplete="name" required aria-describedby="e-name">
@@ -190,10 +194,18 @@
           <textarea id="f-details" name="details" required aria-describedby="e-details" placeholder="What are you trying to achieve, and what’s in place already?">{{ old('details') }}</textarea>
           <p class="err" id="e-details">{{ $errors->first('details') }}</p>
         </div>
+        @if ($turnstileKey = config('services.turnstile.site_key'))
+        <div class="field full turnstile">
+          <div class="cf-turnstile" data-sitekey="{{ $turnstileKey }}" data-theme="auto" data-size="flexible" data-appearance="interaction-only"></div>
+          <p class="err" id="e-cf-turnstile-response">{{ $errors->first('cf-turnstile-response') }}</p>
+        </div>
+        @push('scripts')<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>@endpush
+        @endif
         <div class="form-foot">
           <button class="btn btn-primary" type="submit">Send inquiry</button>
           <p class="status" id="form-status" role="status">{{ session('inquiry_sent') ? 'Inquiry sent. Thank you, I will reply by email soon.' : '' }}</p>
         </div>
+        <p class="form-note">Your details are only used to reply to your inquiry.</p>
       </form>
     </div>
   </section>

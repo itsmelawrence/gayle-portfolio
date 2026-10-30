@@ -108,5 +108,6 @@ document.documentElement.classList.add('preload','loading');
 </footer>
 
 <script src="{{ asset('js/portfolio.js') }}?v={{ filemtime(public_path('js/portfolio.js')) }}"></script>
+@stack('scripts')
 </body>
 </html>

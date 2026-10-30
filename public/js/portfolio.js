@@ -114,6 +114,17 @@
 
   // Inquiry form: inline validation, then submit to the Laravel inquiries route
   var form=document.getElementById('inquiry'), fstatus=document.getElementById('form-status');
+  // Remember where this visit started (UTM tags, referrer, landing page) and send it with the inquiry
+  var visit=null;
+  try{visit=JSON.parse(sessionStorage.getItem('visit'))}catch(e){}
+  if(!visit){
+    var q=new URLSearchParams(location.search);
+    visit={utm_source:q.get('utm_source'),utm_medium:q.get('utm_medium'),utm_campaign:q.get('utm_campaign'),
+      referrer:document.referrer&&new URL(document.referrer).host!==location.host?document.referrer:'',landing_page:location.pathname+location.search};
+    try{sessionStorage.setItem('visit',JSON.stringify(visit))}catch(e){}
+  }
+  function fillAttribution(){Object.keys(visit).forEach(function(k){if(form.elements[k]) form.elements[k].value=(visit[k]||'').slice(0,500)})}
+  fillAttribution();
   form.noValidate=true;
   var msgs={name:'Enter your name.',email:'Enter an email address, like name@company.com.',service:'Choose the service you are interested in.',details:'Add a few details about your project.'};
   function check(input){
@@ -123,14 +134,17 @@
     input.setAttribute('aria-invalid',bad); err.textContent=bad?msgs[key]:''; return !bad;
   }
   form.addEventListener('blur',function(e){if(e.target.matches('[required]')&&e.target.value) check(e.target)},true);
+  // Clear an error as soon as the field is fixed. Waiting for blur would collapse the message mid-click on Send,
+  // shifting the button out from under the pointer so the click never lands.
+  form.addEventListener('input',function(e){if(e.target.getAttribute('aria-invalid')==='true') check(e.target)});
+  form.addEventListener('change',function(e){if(e.target.getAttribute('aria-invalid')==='true') check(e.target)});
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var fields=[].slice.call(form.querySelectorAll('[required]')), first=null;
     fields.forEach(function(f){if(!check(f)&&!first) first=f});
     if(first){first.focus(); fstatus.textContent=''; return}
-    if(form.dataset.connected!=='true'){
-      fstatus.textContent='This form is not connected yet. Set PORTFOLIO_EMAIL in the site settings to start receiving inquiries.'; return;
-    }
+    var ts=form.elements['cf-turnstile-response'];
+    if(form.querySelector('.cf-turnstile')&&(!ts||!ts.value)){fstatus.textContent='Please wait a moment while we check you’re not a bot, then try again.'; return}
     var btn=form.querySelector('button[type=submit]'); btn.disabled=true; fstatus.textContent='Sending…';
     var token=document.querySelector('meta[name=csrf-token]').content;
     fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json','X-CSRF-TOKEN':token}})
@@ -138,16 +152,18 @@
         if(r.status===422) return r.json().then(function(data){
           var firstBad=null;
           Object.keys(data.errors||{}).forEach(function(key){
-            var input=form.elements[key], err=document.getElementById('e-'+key); if(!input||!err) return;
-            input.setAttribute('aria-invalid',true); err.textContent=data.errors[key][0]; if(!firstBad) firstBad=input;
+            var input=form.elements[key], err=document.getElementById('e-'+key);
+            if(err) err.textContent=data.errors[key][0]; else fstatus.textContent=data.errors[key][0];
+            if(!input||!input.focus||input.type==='hidden') return;
+            input.setAttribute('aria-invalid',true); if(!firstBad) firstBad=input;
           });
-          if(firstBad) firstBad.focus(); fstatus.textContent='';
+          if(firstBad){firstBad.focus(); fstatus.textContent=''}
         });
         if(!r.ok) throw 0;
-        form.reset(); fstatus.textContent='Inquiry sent. Thank you, I will reply by email soon.';
+        form.reset(); fillAttribution(); fstatus.textContent='Inquiry sent. Thank you, I will reply by email soon.';
       })
       .catch(function(){fstatus.textContent='Your inquiry could not be sent. Check your connection and try again, or email me directly.'})
-      .finally(function(){btn.disabled=false});
+      .finally(function(){btn.disabled=false; if(window.turnstile) window.turnstile.reset()});
   });
 })();
 

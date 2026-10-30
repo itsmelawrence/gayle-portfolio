@@ -59,13 +59,23 @@ class PortfolioPageTest extends TestCase
         }
     }
 
+    public function test_turnstile_widget_renders_only_when_a_site_key_is_set(): void
+    {
+        config(['services.turnstile.site_key' => null]);
+        $this->get('/')->assertDontSee('cf-turnstile', false);
+
+        config(['services.turnstile.site_key' => 'site-key-123']);
+        $this->get('/')
+            ->assertSee('data-sitekey="site-key-123"', false)
+            ->assertSee('challenges.cloudflare.com/turnstile/v0/api.js', false);
+    }
+
     public function test_unset_contact_details_show_as_placeholders(): void
     {
         config(['portfolio.contact.email' => null]);
 
         $this->get('/')
-            ->assertSee('<span class="ph">[email address]</span>', false)
-            ->assertSee('data-connected="false"', false);
+            ->assertSee('<span class="ph">[email address]</span>', false);
     }
 
     public function test_configured_contact_details_replace_placeholders(): void
@@ -74,7 +84,6 @@ class PortfolioPageTest extends TestCase
 
         $this->get('/')
             ->assertSee('<a href="mailto:gayle@example.com">gayle@example.com</a>', false)
-            ->assertDontSee('[email address]')
-            ->assertSee('data-connected="true"', false);
+            ->assertDontSee('[email address]');
     }
 }
