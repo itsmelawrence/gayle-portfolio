@@ -3,7 +3,6 @@
 @section('title', 'Privacy Policy | '.$name)
 @section('description', 'How '.$name.' collects, uses, and protects the details you share through the contact form on this site.')
 
-{{-- Text in [square brackets] is a placeholder for Gayle to confirm before launch. --}}
 @php($reach = $contact['email'] ? new \Illuminate\Support\HtmlString('<a href="mailto:'.e($contact['email']).'">'.e($contact['email']).'</a>') : ph('[email address]'))
 @section('content')
 <article class="legal wrap">
@@ -26,25 +25,19 @@
     </li>
     <li>
       <h2>Who else processes it</h2>
-      <p>A few trusted services help run this site and only handle your data on my behalf:</p>
-      <ul>
-        <li><strong>Laravel Cloud</strong> hosts the site and its database, where inquiries are stored.</li>
-        <li><strong>Resend</strong> delivers the email that notifies me of your inquiry.</li>
-        <li><strong>Cloudflare Turnstile</strong> checks that the form is being used by a person, not a bot.</li>
-        <li><strong>Google Fonts</strong> serves the typefaces used on the site.</li>
-      </ul>
+      <p>The site runs on trusted platforms, such as Laravel Cloud for hosting and Cloudflare for security, along with a small number of service providers that deliver email and fonts. They handle your information only to keep the site and form working, on my behalf, and never for their own marketing.</p>
     </li>
     <li>
       <h2>Cookies and storage</h2>
-      <p>The site uses only essential cookies: one keeps your visit’s session and one protects the form against forged submissions. Cloudflare Turnstile may set its own security cookie. Your browser also briefly remembers how you arrived, so it can be sent with your inquiry, and forgets it when you close the tab. There are no analytics, advertising, or tracking cookies.</p>
+      <p>The site uses only essential cookies: one keeps your visit’s session and one protects the form against forged submissions. Cloudflare may set its own security cookie. Your browser also briefly remembers how you arrived, so it can be sent with your inquiry, and forgets it when you close the tab. There are no analytics, advertising, or tracking cookies.</p>
     </li>
     <li>
       <h2>How long I keep it</h2>
-      <p>Inquiries are kept for as long as we’re working together or discussing a project, and for up to {{ ph('[24 months]') }} after our last contact. After that they’re deleted. You can ask for yours to be deleted sooner at any time.</p>
+      <p>Inquiries are kept for as long as we’re working together or discussing a project, and for up to 24 months after our last contact. After that they’re deleted. You can ask for yours to be deleted sooner at any time.</p>
     </li>
     <li>
       <h2>Your choices</h2>
-      <p>You can ask to see the information I hold about you, correct it, or have it deleted. Email {{ $reach }} and I’ll respond within {{ ph('[30 days]') }}. If you’re unhappy with how your data has been handled, you also have the right to contact your local data protection authority.</p>
+      <p>You can ask to see the information I hold about you, correct it, or have it deleted. Email {{ $reach }} and I’ll respond within 30 days. If you’re unhappy with how your data has been handled, you also have the right to contact your local data protection authority.</p>
     </li>
   </ol>
 
