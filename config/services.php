@@ -34,6 +34,11 @@ return [
         'secret_key' => env('TURNSTILE_SECRET_KEY'),
     ],
 
+    // Bearer token for the read-only leads feed that the JARVIS Mac app polls. Unset disables the feed.
+    'jarvis' => [
+        'leads_token' => env('JARVIS_LEADS_TOKEN'),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
