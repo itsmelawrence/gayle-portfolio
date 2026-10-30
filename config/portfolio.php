@@ -22,7 +22,7 @@ return [
 
     // Chat bubble beside the hero portrait (types itself in, links to the contact form). Set to null to hide it.
     // Reads as a follow-up to the hero's "Currently" card (three active clients).
-    'availability' => 'Three clients and counting. I’m ready to onboard yours next!',
+    'availability' => 'Three clients and counting. Ready to onboard you next!',
 
     // Inquiries from the contact form are emailed here. Leave unset to show a placeholder.
     'contact' => [
