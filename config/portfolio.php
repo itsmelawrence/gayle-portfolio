@@ -14,6 +14,9 @@ return [
 
     'name' => env('PORTFOLIO_NAME', 'Gayle'),
 
+    // Cutout portrait (transparent background) shown in the hero, relative to public/. Set to null to hide it.
+    'portrait' => 'images/gayle.webp',
+
     // Inquiries from the contact form are emailed here. Leave unset to show a placeholder.
     'contact' => [
         'email' => env('PORTFOLIO_EMAIL'),

@@ -120,6 +120,52 @@
   });
 })();
 
+// Hero portrait: eases toward the cursor (--mx/--my, -1..1) so the photo tilts and the halo drifts behind it
+(function(){
+  var stage=document.querySelector('.hero-stage'), fig=stage&&stage.querySelector('.hero-portrait');
+  if(!fig||window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var tx=0, ty=0, x=0, y=0, raf=0;
+  function clamp(v){return Math.max(-1,Math.min(1,v))}
+  function tick(){
+    x+=(tx-x)*.08; y+=(ty-y)*.08;
+    fig.style.setProperty('--mx',x.toFixed(3)); fig.style.setProperty('--my',y.toFixed(3));
+    raf=Math.abs(tx-x)+Math.abs(ty-y)>.002?requestAnimationFrame(tick):0;
+  }
+  function aim(nx,ny){tx=nx; ty=ny; if(!raf) raf=requestAnimationFrame(tick)}
+  stage.addEventListener('pointermove',function(e){
+    var r=fig.getBoundingClientRect();
+    aim(clamp((e.clientX-r.left-r.width/2)/(r.width*1.5)), clamp((e.clientY-r.top-r.height/2)/(r.height*1.2)));
+  },{passive:true});
+  stage.addEventListener('pointerleave',function(){aim(0,0)});
+})();
+
+// About photo: grows in when it scrolls into view, drifts and turns its ring with scroll, and a soft light follows the cursor
+(function(){
+  var fig=document.querySelector('.about-photo'), section=fig&&fig.closest('section');
+  if(!fig) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window)){fig.classList.add('in'); return}
+  var ticking=false, onScreen=false;
+  function update(){
+    ticking=false;
+    var r=section.getBoundingClientRect(), vh=window.innerHeight;
+    var p=Math.max(0,Math.min(1,(vh-r.top)/(r.height+vh)));   // 0 as the section enters, 1 as it leaves
+    fig.style.setProperty('--rise',((.5-p)*36).toFixed(1));
+    fig.style.setProperty('--spin',(p*140).toFixed(1)+'deg');
+  }
+  function onScroll(){if(onScreen&&!ticking){ticking=true; requestAnimationFrame(update)}}
+  new IntersectionObserver(function(en){
+    onScreen=en[0].isIntersecting;
+    if(onScreen){fig.classList.add('in'); update()}
+  },{threshold:.15}).observe(fig);
+  window.addEventListener('scroll',onScroll,{passive:true});
+  fig.addEventListener('pointermove',function(e){
+    var r=fig.getBoundingClientRect();
+    fig.style.setProperty('--sx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+    fig.style.setProperty('--sy',((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+  },{passive:true});
+  fig.addEventListener('pointerleave',function(){fig.style.setProperty('--sx','50%'); fig.style.setProperty('--sy','30%')});
+})();
+
 // Ambient canvas backdrops (hero lava, work dots). backdrop() handles sizing, theme colours, pointer tracking,
 // and only animates while the section is on screen, the tab is visible, and reduced motion is off (otherwise it draws one still frame).
 (function(){

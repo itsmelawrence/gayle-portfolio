@@ -6,6 +6,7 @@
   <div class="hero-stage">
   <canvas class="lava" aria-hidden="true"></canvas>
   <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero-main">
     <h1 id="hero-title">Ads, creative, and the systems behind them.</h1>
     <div class="hero-row">
       <div class="fade">
@@ -15,14 +16,58 @@
           <a class="btn btn-ghost" href="#contact">Let’s work together</a>
         </div>
       </div>
+@unless ($portrait)
       <p class="hero-aside fade"><strong>Currently</strong>Supporting three clients across DTC advertising, lead generation, and marketing operations.</p>
+      @endunless
     </div>
+    </div>
+    @if ($portrait)
+    <figure class="hero-portrait">
+      <span class="halo" aria-hidden="true"></span>
+      <img src="{{ asset($portrait) }}" width="700" height="1080" alt="{{ $name }}, smiling, in a white puff-sleeve top" fetchpriority="high">
+      <figcaption class="hero-aside hero-card fade"><strong>Currently</strong>Supporting three clients across DTC advertising, lead generation, and marketing operations.</figcaption>
+    </figure>
+    @endif
     <div class="teaser fade">
       <p>How the work connects</p>
       <ol>@foreach ($stages as $stage)<li><a href="#stage-{{ $loop->iteration }}">{{ $stage['name'] }}</a></li>@endforeach</ol>
     </div>
   </section>
   </div>
+
+  <section class="work sec" id="work" aria-labelledby="work-title">
+    <canvas class="dots" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="work-title">Selected work</h2>
+        <p class="lede">Client names are kept private. Each project shows the role, approach, and deliverables; results are only shown where they can be verified.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter projects" hidden><button type="button" aria-pressed="true" data-filter="all">All</button>@foreach ($categories as $key => $label)<button type="button" aria-pressed="false" data-filter="{{ $key }}">{{ $label }}</button>@endforeach</div>
+      <p class="sr-only" aria-live="polite" id="filter-status"></p>
+      <div class="grid" id="grid">@foreach ($projects as $project)
+@include('partials.card')
+@endforeach</div>
+    </div>
+  </section>
+
+  <section class="sec" id="services" aria-labelledby="services-title">
+    <div class="wrap svc-grid">
+      <div class="svc-intro">
+        <h2 id="services-title">Services</h2>
+        <p class="lede">Each service can stand alone, but they are designed to plug into one another. Pick one, or hand over a whole stage of the pipeline.</p>
+        <a class="btn btn-ghost" href="#contact">Discuss a project</a>
+      </div>
+      <ul>@foreach ($services as $service)<li class="svc">
+  <h3>{{ $service['title'] }}</h3>
+  <div>
+    <p>{{ $service['summary'] }}</p>
+    <p class="incl"><span>Includes</span> {{ implode(', ', $service['includes']) }}.</p>
+    @php($stageIndex = array_search($service['stage'], array_column($stages, 'name')))
+    <a class="stage-link" href="{{ $stageIndex === false ? '#system' : '#stage-'.($stageIndex + 1) }}">Where it fits: {{ $service['stage'] }}</a>
+  </div>
+</li>@endforeach</ul>
+    </div>
+  </section>
 
   <section class="system sec" id="system" aria-labelledby="system-title">
     <div class="wrap">
@@ -39,39 +84,6 @@
   <ul class="inline">@foreach ($stage['items'] as $item)<li>{{ $item }}</li>@endforeach</ul>
 </div>@endforeach</div>
       </div>
-    </div>
-  </section>
-
-  <section class="sec" id="services" aria-labelledby="services-title">
-    <div class="wrap svc-grid">
-      <div class="svc-intro">
-        <h2 id="services-title">Services</h2>
-        <p class="lede">Each service can stand alone, but they are designed to plug into one another. Pick one, or hand over a whole stage of the pipeline.</p>
-        <a class="btn btn-ghost" href="#contact">Discuss a project</a>
-      </div>
-      <ul>@foreach ($services as $service)<li class="svc">
-  <h3>{{ $service['title'] }}</h3>
-  <div>
-    <p>{{ $service['summary'] }}</p>
-    <p class="incl"><span>Includes</span> {{ implode(', ', $service['includes']) }}.</p>
-    <a class="stage-link" href="#system">Where it fits: {{ $service['stage'] }}</a>
-  </div>
-</li>@endforeach</ul>
-    </div>
-  </section>
-
-  <section class="work sec" id="work" aria-labelledby="work-title">
-    <canvas class="dots" aria-hidden="true"></canvas>
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 id="work-title">Selected work</h2>
-        <p class="lede">Client names are kept private. Each project shows the role, approach, and deliverables; results are only shown where they can be verified.</p>
-      </div>
-      <div class="filters" role="group" aria-label="Filter projects" hidden><button type="button" aria-pressed="true" data-filter="all">All</button>@foreach ($categories as $key => $label)<button type="button" aria-pressed="false" data-filter="{{ $key }}">{{ $label }}</button>@endforeach</div>
-      <p class="sr-only" aria-live="polite" id="filter-status"></p>
-      <div class="grid" id="grid">@foreach ($projects as $project)
-@include('partials.card')
-@endforeach</div>
     </div>
   </section>
 
@@ -93,7 +105,21 @@
 
   <section class="about sec" id="about" aria-labelledby="about-title">
     <div class="wrap about-grid">
+      @if ($portrait)
+      {{-- The photo sits in an arch and is drawn twice: once clipped by the arch, once (top half only) on top, so her head breaks out of the frame --}}
+      <figure class="about-photo">
+        <div class="arch" aria-hidden="true"><img src="{{ asset($portrait) }}" width="700" height="1080" alt="" loading="lazy"></div>
+        <img class="arch-pop" src="{{ asset($portrait) }}" width="700" height="1080" alt="{{ $name }}, smiling, in a white puff-sleeve top" loading="lazy">
+        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+          <defs><path id="ring-path" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+          <circle cx="60" cy="60" r="58"/>
+          <g class="ring-spin"><text textLength="276" lengthAdjust="spacing"><textPath href="#ring-path">Digital marketing · Operations · Automation ·</textPath></text></g>
+          <path class="ring-star" d="M60 49 L62.6 57.4 L71 60 L62.6 62.6 L60 71 L57.4 62.6 L49 60 L57.4 57.4 Z"/>
+        </svg>
+      </figure>
+      @else
       <div class="portrait">{{ ph('[Portrait photo]') }}</div>
+      @endif
       <div class="about-copy">
         <h2 id="about-title">About</h2>
         <p class="big">I work on both sides of marketing: the visible side, like ads, video, and social content, and the operational side that keeps it running.</p>

@@ -67,8 +67,8 @@ document.documentElement.classList.add('preload','loading');
     <a class="brand" href="#top">{{ $name }}</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
     <div class="nav-links" id="nav-links">
-      <a href="#services">Services</a>
       <a href="#work">Work</a>
+      <a href="#services">Services</a>
       <a href="#experience">Experience</a>
       <a href="#about">About</a>
       <a class="btn btn-primary" href="#contact">Let’s work together</a>

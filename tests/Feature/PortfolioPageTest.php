@@ -17,6 +17,18 @@ class PortfolioPageTest extends TestCase
         }
     }
 
+    public function test_each_service_links_to_its_own_pipeline_stage(): void
+    {
+        $response = $this->get('/');
+        $stageNames = array_column(config('portfolio.stages'), 'name');
+
+        foreach (config('portfolio.services') as $service) {
+            $number = array_search($service['stage'], $stageNames) + 1;
+
+            $response->assertSee('href="#stage-'.$number.'">Where it fits: '.$service['stage'], false);
+        }
+    }
+
     public function test_unset_contact_details_show_as_placeholders(): void
     {
         config(['portfolio.contact.email' => null]);
