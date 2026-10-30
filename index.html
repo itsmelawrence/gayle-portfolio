@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gayle’s Portfolio | Digital Marketing &amp; Operations Specialist</title>
+<meta name="description" content="Gayle is a digital marketing and operations specialist: Meta ads, creative production, social media, funnels, GoHighLevel CRM, and marketing automation.">
+<meta property="og:title" content="Gayle | Digital Marketing &amp; Operations Specialist">
+<meta property="og:description" content="Ads, creative, and the systems behind them.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#7C0E44">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Manrope:wght@400..700&display=swap">
+<style>
+/* ---------- Tokens: palette #7C0E44 / #AA5E7A / #D49A9A / #F2DACE ---------- */
+:root{
+  --paper:#FBF5F1; --surface:#F2DACE; --surface-2:#F7EAE3;
+  --ink:#2A1520; --muted:#6E5560; --line:#E4CCC2; --field:#8E6A78;
+  --accent:#7C0E44;                 /* text links, rules, focus */
+  --btn:#7C0E44; --btn-ink:#FBF5F1;
+  --sys-bg:#7C0E44; --sys-ink:#F2DACE; --sys-muted:#E3B9BC; --sys-line:rgba(242,218,206,.22);
+  --t-plum:#7C0E44; --t-mauve:#AA5E7A; --t-rose:#D49A9A; --t-surface:#F2DACE; --m-ink:#FBF5F1;
+  --ph:rgba(212,154,154,.32);
+  --display:"Fraunces", "Iowan Old Style", Georgia, serif;
+  --sans:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --wrap:1240px; --gut:clamp(20px,5vw,56px); --header:76px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1C1016; --surface:#2A1820; --surface-2:#23141B;
+    --ink:#F4E4DC; --muted:#C2A8AE; --line:#3D2832; --field:#8E6E79;
+    --accent:#E3AEB0; --btn:#D49A9A; --btn-ink:#2A1520;
+    --sys-bg:#5A0A31; --t-surface:#3A2430;
+    --ph:rgba(212,154,154,.22);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1C1016; --surface:#2A1820; --surface-2:#23141B;
+  --ink:#F4E4DC; --muted:#C2A8AE; --line:#3D2832; --field:#8E6E79;
+  --accent:#E3AEB0; --btn:#D49A9A; --btn-ink:#2A1520;
+  --sys-bg:#5A0A31; --t-surface:#3A2430;
+  --ph:rgba(212,154,154,.22);
+  color-scheme:dark;
+}
+
+/* ---------- Base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--header) + 12px);-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.65 var(--sans);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--paper)}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:350;line-height:1.08;letter-spacing:-.015em;margin:0;font-optical-sizing:auto}
+h2{font-size:clamp(2.2rem,4.6vw,3.6rem)}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
+.skip{position:absolute;left:12px;top:-60px;z-index:100;background:var(--btn);color:var(--btn-ink);padding:10px 16px;border-radius:999px;text-decoration:none}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + 12px)}
+.ph{background:var(--ph);border-bottom:1px dashed currentColor;padding:0 .2em;border-radius:2px}
+.lede{color:var(--muted);max-width:52ch;font-size:1.0625rem}
+section{position:relative}
+.sec{padding-block:clamp(88px,11vw,152px)}
+.sec-head{display:grid;gap:20px;margin-bottom:clamp(40px,6vw,72px);max-width:760px}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 26px;border-radius:999px;font:600 .975rem/1 var(--sans);text-decoration:none;border:1.5px solid var(--btn);transition:background .2s,color .2s}
+.btn-primary{background:var(--btn);color:var(--btn-ink)}
+.btn-primary:hover{background:transparent;color:var(--accent)}
+.btn-ghost{background:transparent;color:var(--accent)}
+.btn-ghost:hover{background:var(--btn);color:var(--btn-ink)}
+
+/* ---------- Header ---------- */
+.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
+.site-header.scrolled{border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:var(--header);gap:24px}
+.brand{font-family:var(--display);font-size:1.3rem;text-decoration:none;font-weight:450}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{text-decoration:none;font-size:.95rem;font-weight:500}
+.nav-links a:not(.btn):hover{color:var(--accent);text-decoration:underline;text-underline-offset:6px}
+.nav-links .btn{min-height:42px;padding:0 20px}
+.menu-btn{display:none}
+@media (max-width:860px){
+  .js .menu-btn{display:inline-flex;align-items:center;gap:10px;background:none;border:1.5px solid var(--line);color:var(--ink);border-radius:999px;padding:0 16px;height:42px;font:600 .9rem var(--sans);cursor:pointer}
+  .js .nav-links{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);border-bottom:1px solid var(--line);padding:8px var(--gut) 24px;display:none}
+  .js .nav-links.open{display:flex}
+  .js .nav-links a:not(.btn){padding:14px 0;border-bottom:1px solid var(--line);font-size:1.05rem}
+  .js .nav-links .btn{margin-top:18px}
+  .nav-links{flex-wrap:wrap;gap:14px}
+}
+
+/* ---------- Hero ---------- */
+.hero{padding-top:clamp(56px,10vw,128px);padding-bottom:clamp(64px,8vw,104px)}
+.hero h1{font-size:clamp(3rem,9.2vw,8.25rem);font-weight:300;line-height:.98;letter-spacing:-.035em;max-width:14ch}
+.hero-row{display:grid;grid-template-columns:7fr 5fr;gap:clamp(28px,6vw,96px);margin-top:clamp(36px,5vw,64px);align-items:end}
+.hero-intro{font-size:clamp(1.1rem,1.5vw,1.3rem);line-height:1.6;max-width:44ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero-aside{border-top:1px solid var(--accent);padding-top:18px;color:var(--muted);font-size:.975rem;max-width:36ch}
+.hero-aside strong{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+.teaser{margin-top:clamp(56px,8vw,96px);border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 0}
+.teaser p{color:var(--muted);font-size:.95rem;margin-right:28px}
+.teaser ol{display:flex;flex-wrap:wrap;margin:0;padding:0;list-style:none;counter-reset:t}
+.teaser li{display:flex;align-items:baseline}
+.teaser li+li::before{content:"";width:28px;height:1px;background:var(--rose,#D49A9A);margin:0 12px;align-self:center}
+.teaser a{font-family:var(--display);font-size:clamp(1.15rem,1.8vw,1.5rem);text-decoration:none}
+.teaser a:hover{color:var(--accent)}
+@media (max-width:760px){.hero-row{grid-template-columns:1fr}.teaser li+li::before{width:14px;margin:0 8px}}
+
+/* Hero load reveal: the page's single orchestrated motion moment */
+.js .hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.js .hero h1 .w>span{display:inline-block}
+@media (prefers-reduced-motion:no-preference){
+  .js .hero h1 .w>span{transform:translateY(105%);animation:rise .9s cubic-bezier(.2,.7,.1,1) forwards;animation-delay:calc(var(--i)*70ms + 120ms)}
+  .js .hero .fade{opacity:0;animation:fade .8s ease forwards;animation-delay:.75s}
+}
+@keyframes rise{to{transform:none}}
+@keyframes fade{to{opacity:1}}
+
+/* ---------- The System (signature) ---------- */
+.system{background:var(--sys-bg);color:var(--sys-ink)}
+.system .lede{color:var(--sys-muted)}
+.system h2{max-width:14ch}
+.sys-grid{display:grid;grid-template-columns:minmax(220px,4fr) 8fr;gap:clamp(32px,6vw,96px)}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--header) + 48px);align-self:start}
+.rail ol{list-style:none;margin:0;padding:0 0 0 28px;position:relative}
+.rail ol::before,.rail ol::after{content:"";position:absolute;left:6px;top:10px;width:1px;background:var(--sys-line);height:calc(100% - 20px)}
+.rail ol::after{background:var(--sys-ink);height:calc((100% - 20px) * var(--p,0));transition:height .5s cubic-bezier(.2,.7,.1,1)}
+.rail li{position:relative}
+.rail a{display:flex;gap:14px;align-items:baseline;padding:10px 0;text-decoration:none;font-family:var(--display);font-size:clamp(1.3rem,2vw,1.75rem);opacity:.5;transition:opacity .35s}
+.rail a::before{content:"";position:absolute;left:-26px;top:50%;width:9px;height:9px;margin-top:-4px;border-radius:50%;background:var(--sys-bg);border:1px solid var(--sys-muted);transition:background .35s}
+.rail a.on{opacity:1}
+.rail a.on::before{background:var(--sys-ink);border-color:var(--sys-ink)}
+.rail .rn{font-family:var(--sans);font-size:.8rem;font-weight:600;width:1.2em}
+.stage{min-height:68vh;display:flex;flex-direction:column;justify-content:center;gap:18px;border-top:1px solid var(--sys-line);padding-block:48px}
+.stage:last-child{min-height:56vh}
+.stage .stage-no{font-family:var(--display);font-size:clamp(3.5rem,7vw,6rem);line-height:1;color:var(--t-rose);font-weight:300}
+.stage .stage-no span{font-family:var(--sans);font-size:.9rem;color:var(--sys-muted);font-weight:500;letter-spacing:0}
+.stage h3{font-size:clamp(1.9rem,3.4vw,2.9rem);max-width:18ch}
+.stage>p{color:var(--sys-muted);max-width:50ch;font-size:1.1rem}
+.inline{display:flex;flex-wrap:wrap;gap:8px}
+.inline li{border:1px solid var(--sys-line);border-radius:999px;padding:6px 14px;font-size:.9rem}
+@media (max-width:900px){
+  .sys-grid{grid-template-columns:1fr}
+  .rail{display:none}
+  .stage,.stage:last-child{min-height:0;padding-block:40px}
+}
+
+/* ---------- Services ---------- */
+.svc-grid{display:grid;grid-template-columns:4fr 8fr;gap:clamp(32px,6vw,96px)}
+.svc-intro{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--header) + 40px);align-self:start;display:grid;gap:20px}
+.svc-intro .btn{justify-self:start;margin-top:8px}
+.svc{display:grid;grid-template-columns:5fr 7fr;gap:24px 40px;padding-block:36px;border-top:1px solid var(--line)}
+.svc:last-child{border-bottom:1px solid var(--line)}
+.svc h3{font-size:clamp(1.5rem,2.3vw,1.95rem)}
+.svc div{display:grid;gap:14px}
+.incl{color:var(--muted);font-size:.95rem}
+.incl span{color:var(--ink);font-weight:600;margin-right:4px}
+.stage-link{font-size:.9rem;font-weight:600;color:var(--accent);text-underline-offset:4px;justify-self:start}
+@media (max-width:900px){.svc-grid{grid-template-columns:1fr}.svc-intro{position:static}}
+@media (max-width:640px){.svc{grid-template-columns:1fr}}
+
+/* ---------- Work ---------- */
+.work{background:var(--surface-2)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
+@media (max-width:760px){.filters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}}
+.no-js .filters,.filters[hidden]{display:none}
+.filters button{flex:none;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:9px 18px;font:500 .9rem var(--sans);cursor:pointer}
+.filters button:hover{border-color:var(--accent)}
+.filters button[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--btn-ink)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(20px,3vw,36px) clamp(16px,2.4vw,28px)}
+.card{text-decoration:none;display:grid;gap:12px;align-content:start}
+.card.w7{grid-column:span 7}.card.w5{grid-column:span 5}.card.w4{grid-column:span 4}.card.w6{grid-column:span 6}
+.card[hidden]{display:none}
+.card .mock{aspect-ratio:4/3}
+.card.w7 .mock{aspect-ratio:7/5}.card.w5 .mock{aspect-ratio:1}
+.card-meta{color:var(--muted);font-size:.875rem;margin-top:6px}
+.card-meta .sep{margin:0 8px;opacity:.6}
+.card h3{font-size:clamp(1.3rem,2vw,1.65rem)}
+.card:hover h3{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.filtering .card{grid-column:span 6}
+@media (max-width:900px){.card.w7,.card.w5,.card.w4,.card.w6,.filtering .card{grid-column:span 6}}
+@media (max-width:600px){.card.w7,.card.w5,.card.w4,.card.w6,.filtering .card{grid-column:1/-1}}
+.work-note{margin-top:40px;color:var(--muted);font-size:.95rem}
+
+/* Placeholder mockups (CSS-only, replace with real images) */
+.mock{position:relative;border-radius:4px;overflow:hidden;display:grid;place-items:center;background:var(--tone);--el:var(--m-ink);--el2:color-mix(in srgb,var(--m-ink) 55%,transparent)}
+.t-plum{--tone:var(--t-plum)}.t-mauve{--tone:var(--t-mauve)}.t-rose{--tone:var(--t-rose);--el2:color-mix(in srgb,#7C0E44 35%,transparent)}
+.t-surface{--tone:var(--t-surface);--el:var(--paper);--el2:color-mix(in srgb,#AA5E7A 45%,transparent)}
+.mock i,.mock b{display:block}
+.m-ad,.m-form{width:min(46%,260px);background:var(--el);border-radius:10px;padding:7%;display:grid;gap:9px;box-shadow:0 20px 40px -24px rgba(42,21,32,.55)}
+.m-av{width:26px;height:26px;border-radius:50%;background:var(--t-rose)}
+.m-l{height:7px;border-radius:4px;background:color-mix(in srgb,#2A1520 16%,transparent)}
+.m-l.s{width:55%}
+.m-img{aspect-ratio:1;border-radius:6px;background:var(--t-mauve)}
+.m-btn{height:22px;border-radius:999px;background:#7C0E44}
+.m-in{height:22px;border-radius:5px;border:1.5px solid color-mix(in srgb,#2A1520 22%,transparent)}
+.m-grid,.m-feed{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:min(50%,280px)}
+.m-grid i,.m-feed i{aspect-ratio:1;border-radius:4px;background:var(--el2)}
+.m-grid i:nth-child(5){background:var(--t-plum)}
+.m-feed{grid-template-columns:repeat(2,1fr);width:min(40%,220px);gap:10px}
+.m-feed i{aspect-ratio:4/5;background:var(--el2)}
+.m-feed i:first-child{background:var(--t-rose)}
+.m-phone{width:min(25%,150px);aspect-ratio:9/19;border-radius:22px;border:7px solid #2A1520;background:#7C0E44;display:grid;place-items:center;box-shadow:0 24px 40px -22px rgba(42,21,32,.7)}
+.m-play{width:0;height:0;border-left:20px solid #F2DACE;border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:6px}
+.m-browser{width:min(70%,440px);background:var(--el);border-radius:8px;padding:0 0 7%;display:grid;gap:10px;box-shadow:0 20px 40px -24px rgba(42,21,32,.55);overflow:hidden}
+.m-browser b{display:flex;gap:5px;padding:9px 10px;background:color-mix(in srgb,#2A1520 8%,transparent)}
+.m-browser b i{width:7px;height:7px;border-radius:50%;background:color-mix(in srgb,#2A1520 25%,transparent)}
+.m-browser .m-hero{height:70px;margin:4px 7% 4px;border-radius:5px;background:#7C0E44}
+.m-browser .m-l{margin-inline:7%}
+.m-flow{display:flex;align-items:center;width:70%}
+.m-flow .n{width:clamp(28px,4vw,44px);aspect-ratio:1;border-radius:10px;background:var(--el);flex:none}
+.m-flow .n:nth-child(3){border-radius:50%;background:var(--t-surface)}
+.m-flow .e{flex:1;height:2px;background:var(--el2)}
+
+/* ---------- Experience ---------- */
+.eng-list{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,40px)}
+.eng{border-top:2px solid var(--accent);padding-top:24px;display:grid;gap:12px;align-content:start}
+.eng-client{font-family:var(--display);font-size:2rem;line-height:1}
+.eng-sector{color:var(--muted);font-size:.95rem}
+.eng h3{font-family:var(--sans);font-size:1.05rem;font-weight:600;letter-spacing:0;line-height:1.4;margin-top:8px}
+.eng ul{display:grid;gap:8px;padding-left:18px;list-style:disc;color:var(--muted)}
+.eng ul li::marker{color:var(--t-rose)}
+.eng-built{font-size:.925rem;padding-top:14px;border-top:1px solid var(--line);margin-top:6px}
+.eng-built span{font-weight:600;margin-right:4px}
+@media (max-width:900px){.eng-list{grid-template-columns:1fr}}
+
+/* ---------- About ---------- */
+.about{background:var(--paper)}
+.about-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start}
+.portrait{aspect-ratio:4/5;background:var(--surface);border-radius:4px;display:grid;place-items:center;color:var(--muted);font-size:.95rem;position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--header) + 32px)}
+.about-copy{display:grid;gap:22px}
+.about-copy .big{font-family:var(--display);font-size:clamp(1.55rem,2.6vw,2.15rem);line-height:1.3;font-weight:330}
+.about-copy p{max-width:62ch}
+.vision{border-left:2px solid var(--accent);padding-left:20px;color:var(--muted)}
+.traits{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 40px;margin-top:20px;padding-top:36px;border-top:1px solid var(--line)}
+.traits h3{font-size:1.3rem;margin-bottom:6px}
+.traits p{color:var(--muted);font-size:.975rem}
+@media (max-width:900px){.about-grid{grid-template-columns:1fr}.portrait{position:static;max-width:420px}}
+@media (max-width:560px){.traits{grid-template-columns:1fr}}
+
+/* ---------- Tools ---------- */
+.tools{border-top:1px solid var(--line)}
+.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px clamp(24px,4vw,56px)}
+.tool-group h3{font-family:var(--sans);font-weight:600;font-size:.95rem;letter-spacing:0;color:var(--muted);margin-bottom:14px}
+.tool-group ul{display:flex;flex-wrap:wrap;gap:8px}
+.tool-group li{border:1px solid var(--line);background:var(--surface-2);border-radius:6px;padding:8px 14px;font-weight:500}
+@media (max-width:860px){.tool-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.tool-grid{grid-template-columns:1fr}}
+
+/* ---------- Contact ---------- */
+.contact{background:var(--surface)}
+.contact-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(36px,6vw,96px)}
+.contact-info{display:grid;gap:22px;align-content:start}
+.links{display:grid;gap:4px;margin-top:12px;border-top:1px solid var(--line)}
+.links li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.links li span:first-child{color:var(--muted)}
+form{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.field{display:grid;gap:8px}
+.field.full{grid-column:1/-1}
+label{font-weight:600;font-size:.95rem}
+label .opt{font-weight:400;color:var(--muted)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--field);border-radius:8px;padding:12px 14px;min-height:50px;width:100%}
+textarea{min-height:150px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+[aria-invalid="true"]{border-color:#B3261E}
+.err{color:#9F1F1A;font-size:.9rem;font-weight:500}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .err{color:#FFB4AB}}
+:root[data-theme="dark"] .err{color:#FFB4AB}
+.err:empty{display:none}
+.form-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px}
+.form-foot .btn{border:none;cursor:pointer}
+.status{font-size:.95rem;font-weight:500}
+@media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
+@media (max-width:560px){form{grid-template-columns:1fr}}
+
+/* ---------- Footer ---------- */
+.site-footer{padding-block:40px;font-size:.9rem;color:var(--muted)}
+.site-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+
+/* ---------- Case study view (works with or without JS via :target) ---------- */
+.case{display:none;padding-block:clamp(40px,6vw,80px) clamp(80px,10vw,128px)}
+.case:target,.case.active{display:block}
+body:has(.case:target) .home,body.viewing-case .home{display:none}
+.back{display:inline-block;font-weight:600;color:var(--accent);text-underline-offset:4px;margin-bottom:clamp(36px,5vw,64px)}
+.case-cat{color:var(--muted);margin-bottom:16px}
+.case h2{font-size:clamp(2.4rem,6vw,5rem);font-weight:300;max-width:16ch;letter-spacing:-.03em}
+.case h2:focus{outline:none}
+.case-lead{font-size:clamp(1.1rem,1.6vw,1.35rem);max-width:56ch;margin-top:24px}
+.case-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin:48px 0;padding-block:24px;border-block:1px solid var(--line)}
+.case-facts dt{color:var(--muted);font-size:.875rem;margin-bottom:4px}
+.case-facts dd{margin:0;font-weight:500}
+.case-hero .mock{aspect-ratio:16/8}
+.media-note{margin-top:10px;font-size:.9rem;color:var(--muted)}
+.case-body{display:grid;gap:0;margin-top:clamp(48px,6vw,80px)}
+.case-body section{display:grid;grid-template-columns:4fr 8fr;gap:16px 40px;padding-block:28px;border-top:1px solid var(--line)}
+.case-body h3{font-size:1.45rem}
+.case-body ul{display:grid;gap:8px;padding-left:18px;list-style:disc}
+.case-body p,.case-body ul{max-width:60ch}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.shot{aspect-ratio:4/3;background:var(--surface);border-radius:4px;display:grid;place-items:center;font-size:.9rem;color:var(--muted)}
+.next{display:grid;gap:6px;margin-top:clamp(56px,8vw,96px);padding-top:28px;border-top:1px solid var(--accent);text-decoration:none;font-family:var(--display);font-size:clamp(1.6rem,3vw,2.4rem)}
+.next span{font-family:var(--sans);font-size:.9rem;color:var(--muted)}
+.next:hover{color:var(--accent)}
+@media (max-width:760px){.case-facts{grid-template-columns:1fr 1fr}.case-body section{grid-template-columns:1fr}.gallery{grid-template-columns:1fr}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body class="no-js">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <nav class="nav wrap" aria-label="Main">
+    <a class="brand" href="#top">Gayle</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <div class="nav-links" id="nav-links">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#about">About</a>
+      <a class="btn btn-primary" href="#contact">Let’s work together</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+<div class="home" id="top">
+
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <h1 id="hero-title">Ads, creative, and the systems behind them.</h1>
+    <div class="hero-row">
+      <div class="fade">
+        <p class="hero-intro">I’m Gayle, a digital marketing and operations specialist. I help businesses run better marketing: research-led ad creative, well-structured Meta campaigns, and the funnels, CRM, and automations that turn leads into conversations.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#work">View my work</a>
+          <a class="btn btn-ghost" href="#contact">Let’s work together</a>
+        </div>
+      </div>
+      <p class="hero-aside fade"><strong>Currently</strong>Supporting three clients across DTC advertising, lead generation, and marketing operations.</p>
+    </div>
+    <div class="teaser fade">
+      <p>How the work connects</p>
+      <ol><li><a href="#stage-1">Research</a></li><li><a href="#stage-2">Creative</a></li><li><a href="#stage-3">Launch</a></li><li><a href="#stage-4">Capture</a></li><li><a href="#stage-5">Follow-up</a></li></ol>
+    </div>
+  </section>
+
+  <section class="system sec" id="system" aria-labelledby="system-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="system-title">Five stages, one pipeline.</h2>
+        <p class="lede">Most businesses hire for these separately. Each one works better when it is built with the others in mind: research shapes the creative, the creative feeds the campaign, and the campaign is only as good as what happens after the click.</p>
+      </div>
+      <div class="sys-grid">
+        <nav class="rail" aria-label="Pipeline stages"><ol><li><a href="#stage-1" data-step="0"><span class="rn">1</span>Research</a></li><li><a href="#stage-2" data-step="1"><span class="rn">2</span>Creative</a></li><li><a href="#stage-3" data-step="2"><span class="rn">3</span>Launch</a></li><li><a href="#stage-4" data-step="3"><span class="rn">4</span>Capture</a></li><li><a href="#stage-5" data-step="4"><span class="rn">5</span>Follow-up</a></li></ol></nav>
+        <div class="stages"><div class="stage" id="stage-1" data-step="0">
+  <p class="stage-no">1 <span>of 5</span></p>
+  <h3><span class="stage-name">Research.</span> Study what is already working.</h3>
+  <p>Before anything is made, I look at what competitors are running: the hooks, angles, and formats that keep showing up, and the gaps nobody has used yet.</p>
+  <ul class="inline"><li>Competitor ad research</li><li>Creative angle analysis</li><li>Concept references</li></ul>
+</div><div class="stage" id="stage-2" data-step="1">
+  <p class="stage-no">2 <span>of 5</span></p>
+  <h3><span class="stage-name">Creative.</span> Turn angles into ads.</h3>
+  <p>Research becomes short-form video edits and static creatives built around the campaign’s objective. The same production feeds organic social content.</p>
+  <ul class="inline"><li>Short-form video editing</li><li>Static ad creatives</li><li>Social content</li></ul>
+</div><div class="stage" id="stage-3" data-step="2">
+  <p class="stage-no">3 <span>of 5</span></p>
+  <h3><span class="stage-name">Launch.</span> Structure and publish campaigns.</h3>
+  <p>Campaigns are structured around one clear goal, then set up and published in Meta, with the details checked before anything goes live.</p>
+  <ul class="inline"><li>Meta Ads setup</li><li>Campaign structure</li><li>Lead generation campaigns</li></ul>
+</div><div class="stage" id="stage-4" data-step="3">
+  <p class="stage-no">4 <span>of 5</span></p>
+  <h3><span class="stage-name">Capture.</span> Give every lead somewhere to land.</h3>
+  <p>Landing pages and funnels in GoHighLevel turn ad clicks into named leads inside a CRM, rather than form fills that disappear into an inbox.</p>
+  <ul class="inline"><li>Landing pages</li><li>Funnels</li><li>Lead capture</li></ul>
+</div><div class="stage" id="stage-5" data-step="4">
+  <p class="stage-no">5 <span>of 5</span></p>
+  <h3><span class="stage-name">Follow-up.</span> Make sure no lead goes cold.</h3>
+  <p>Pipelines, lead journeys, and automated follow-up keep each lead moving, so the business spends its time on conversations instead of chasing.</p>
+  <ul class="inline"><li>CRM pipelines</li><li>Workflow automation</li><li>Email and appointment workflows</li></ul>
+</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="services" aria-labelledby="services-title">
+    <div class="wrap svc-grid">
+      <div class="svc-intro">
+        <h2 id="services-title">Services</h2>
+        <p class="lede">Each service can stand alone, but they are designed to plug into one another. Pick one, or hand over a whole stage of the pipeline.</p>
+        <a class="btn btn-ghost" href="#contact">Discuss a project</a>
+      </div>
+      <ul><li class="svc">
+  <h3>Paid advertising & lead generation</h3>
+  <div>
+    <p>Meta campaigns structured around a clear goal, from setup through publishing and ongoing management.</p>
+    <p class="incl"><span>Includes</span> Meta Ads campaign setup, lead generation campaigns, campaign structuring, ad publishing and management, competitor ad research, creative testing support.</p>
+    <a class="stage-link" href="#system">Where it fits: Launch</a>
+  </div>
+</li><li class="svc">
+  <h3>Creative research & production</h3>
+  <div>
+    <p>Ads grounded in research: what competitors run, which angles work, and creative produced to match.</p>
+    <p class="incl"><span>Includes</span> competitor ad research, creative concept research, short-form video editing, video ad production, static ad creatives, Canva and CapCut production.</p>
+    <a class="stage-link" href="#system">Where it fits: Research</a>
+  </div>
+</li><li class="svc">
+  <h3>Social media management</h3>
+  <div>
+    <p>Consistent, organised social channels, from the content plan through production and publishing.</p>
+    <p class="incl"><span>Includes</span> content planning, content creation, video editing, publishing, content organisation.</p>
+    <a class="stage-link" href="#system">Where it fits: Creative</a>
+  </div>
+</li><li class="svc">
+  <h3>Funnel & CRM development</h3>
+  <div>
+    <p>Landing pages, funnels, and GoHighLevel pipelines that turn clicks into leads you can see and manage.</p>
+    <p class="incl"><span>Includes</span> GoHighLevel setup, landing pages, funnel building, lead capture systems, CRM pipeline setup, lead journey organisation.</p>
+    <a class="stage-link" href="#system">Where it fits: Capture</a>
+  </div>
+</li><li class="svc">
+  <h3>Marketing automation</h3>
+  <div>
+    <p>Workflows that follow up, remind, and nurture automatically, so leads move forward without manual chasing.</p>
+    <p class="incl"><span>Includes</span> workflow automation, automated lead follow-up, appointment workflows, email automation, lead nurturing, business process automation.</p>
+    <a class="stage-link" href="#system">Where it fits: Follow-up</a>
+  </div>
+</li></ul>
+    </div>
+  </section>
+
+  <section class="work sec" id="work" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="work-title">Selected work</h2>
+        <p class="lede">Client names are kept private. Each project shows the role, approach, and deliverables; results are only shown where they can be verified.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter projects" hidden><button type="button" aria-pressed="true" data-filter="all">All</button><button type="button" aria-pressed="false" data-filter="paid">Paid advertising</button><button type="button" aria-pressed="false" data-filter="research">Competitor ad research</button><button type="button" aria-pressed="false" data-filter="leadgen">Lead generation</button><button type="button" aria-pressed="false" data-filter="video">Video &amp; creative</button><button type="button" aria-pressed="false" data-filter="social">Social media</button><button type="button" aria-pressed="false" data-filter="funnel">Funnels &amp; landing pages</button><button type="button" aria-pressed="false" data-filter="crm">CRM &amp; automation</button></div>
+      <p class="sr-only" aria-live="polite" id="filter-status"></p>
+      <div class="grid" id="grid"><a class="card w7" href="#case-ad-publishing" data-cat="paid">
+  <div class="mock t-plum" aria-hidden="true"><div class="m-ad"><i class="m-av"></i><i class="m-l s"></i><i class="m-img"></i><i class="m-l"></i><i class="m-btn"></i></div></div>
+  <span class="card-meta">Paid advertising<span class="sep">/</span>Client A</span>
+  <h3>Publishing Meta campaigns for DTC brands</h3>
+</a>
+<a class="card w5" href="#case-competitor-research" data-cat="research">
+  <div class="mock t-surface" aria-hidden="true"><div class="m-grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  <span class="card-meta">Competitor ad research<span class="sep">/</span>Client A</span>
+  <h3>Competitor ad research for creative direction</h3>
+</a>
+<a class="card w4" href="#case-lead-gen" data-cat="leadgen">
+  <div class="mock t-mauve" aria-hidden="true"><div class="m-form"><i class="m-l s"></i><i class="m-in"></i><i class="m-in"></i><i class="m-in"></i><i class="m-btn"></i></div></div>
+  <span class="card-meta">Lead generation<span class="sep">/</span>Client B</span>
+  <h3>Lead generation campaigns for service businesses</h3>
+</a>
+<a class="card w4" href="#case-video-ads" data-cat="video">
+  <div class="mock t-rose" aria-hidden="true"><div class="m-phone"><i class="m-play"></i></div></div>
+  <span class="card-meta">Video &amp; creative<span class="sep">/</span>Client B</span>
+  <h3>Short-form video ads</h3>
+</a>
+<a class="card w4" href="#case-social" data-cat="social">
+  <div class="mock t-plum" aria-hidden="true"><div class="m-feed"><i></i><i></i><i></i><i></i></div></div>
+  <span class="card-meta">Social media<span class="sep">/</span>Client C</span>
+  <h3>Social media management</h3>
+</a>
+<a class="card w6" href="#case-funnels" data-cat="funnel">
+  <div class="mock t-surface" aria-hidden="true"><div class="m-browser"><b><i></i><i></i><i></i></b><i class="m-hero"></i><i class="m-l"></i><i class="m-l s"></i></div></div>
+  <span class="card-meta">Funnels &amp; landing pages<span class="sep">/</span>Client C</span>
+  <h3>Funnels and landing pages</h3>
+</a>
+<a class="card w6" href="#case-crm-automation" data-cat="crm">
+  <div class="mock t-mauve" aria-hidden="true"><div class="m-flow"><i class="n"></i><i class="e"></i><i class="n"></i><i class="e"></i><i class="n"></i></div></div>
+  <span class="card-meta">CRM &amp; automation<span class="sep">/</span>Client C</span>
+  <h3>GoHighLevel CRM and workflow automation</h3>
+</a></div>
+    </div>
+  </section>
+
+  <section class="sec" id="experience" aria-labelledby="exp-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="exp-title">Three clients, running side by side</h2>
+        <p class="lede">I currently support three businesses at once, each with a different model and a different part of the marketing stack.</p>
+      </div>
+      <ul class="eng-list"><li class="eng">
+  <p class="eng-client">Client A</p>
+  <p class="eng-sector">DTC advertising agency</p>
+  <h3>Ad publisher and advertising research support</h3>
+  <ul><li>Publishing and executing ad campaigns</li><li>Researching competitor advertisements</li><li>Analysing creatives for usable angles and concepts</li><li>Supporting execution for direct-to-consumer brands</li></ul>
+  <p class="eng-built"><span>Strengths built</span> Meta ad operations, creative analysis, attention to detail</p>
+</li><li class="eng">
+  <p class="eng-client">Client B</p>
+  <p class="eng-sector">Paid advertising & lead generation</p>
+  <h3>Paid advertising specialist and creative support</h3>
+  <ul><li>Structuring lead generation campaigns</li><li>Setting up and managing Meta campaigns</li><li>Editing short-form video ads</li><li>Developing creatives around business objectives</li></ul>
+  <p class="eng-built"><span>Strengths built</span> Lead generation, campaign structure, video editing</p>
+</li><li class="eng">
+  <p class="eng-client">Client C</p>
+  <p class="eng-sector">Digital marketing & operations</p>
+  <h3>Digital marketing and operations support</h3>
+  <ul><li>Managing and producing social media content</li><li>Building funnels and landing pages</li><li>Setting up GoHighLevel and its automations</li><li>Organising lead journeys and CRM processes</li></ul>
+  <p class="eng-built"><span>Strengths built</span> Funnels, CRM, automation, process organisation</p>
+</li></ul>
+    </div>
+  </section>
+
+  <section class="about sec" id="about" aria-labelledby="about-title">
+    <div class="wrap about-grid">
+      <div class="portrait"><span class="ph">[Portrait photo]</span></div>
+      <div class="about-copy">
+        <h2 id="about-title">About</h2>
+        <p class="big">I work on both sides of marketing: the visible side, like ads, video, and social content, and the operational side that keeps it running.</p>
+        <p>I like understanding how a business actually works before touching its marketing. That is usually where the useful fixes are: a campaign that needs a clearer structure, a lead journey with gaps in it, or a task someone repeats by hand every week.</p>
+        <p>From researching competitor ads and structuring lead generation campaigns to editing creatives, building funnels, and automating follow-up, I take projects from plan to launch and stay responsible for the details.</p>
+        <p class="vision">Longer term, I’m building toward a small team that offers the same thing at greater scale: reliable execution and well-structured marketing systems.</p>
+        <ul class="traits"><li><h3>Independent</h3><p>Takes projects from planning to launch without needing step-by-step direction.</p></li><li><h3>Adaptable</h3><p>Moves between ads, creative, social, and technical setup across different industries.</p></li><li><h3>Execution-focused</h3><p>Turns plans into live campaigns, creatives, funnels, and workflows.</p></li><li><h3>Resourceful</h3><p>Uses research and AI tools to solve problems and work more efficiently.</p></li><li><h3>Detail-oriented</h3><p>Cares about clean campaign structure, tidy workflows, and accurate data.</p></li><li><h3>Always learning</h3><p>Keeps picking up new tools and sharpening the craft.</p></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="tools sec" id="tools" aria-labelledby="tools-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="tools-title">Tools I work in</h2>
+        <p class="lede">The software I use day to day in client work.</p>
+      </div>
+      <div class="tool-grid"><div class="tool-group"><h3>Advertising</h3><ul><li>Meta Business Suite</li></ul></div><div class="tool-group"><h3>CRM & automation</h3><ul><li>GoHighLevel</li></ul></div><div class="tool-group"><h3>Social media</h3><ul><li>Social media platforms</li></ul></div><div class="tool-group"><h3>Creative production</h3><ul><li>CapCut</li><li>Canva</li></ul></div><div class="tool-group"><h3>Communication & calling</h3><ul><li>Slack</li><li>Kixie</li><li>Mango</li></ul></div><div class="tool-group"><h3>AI & productivity</h3><ul><li>ChatGPT</li><li>Gemini</li><li>Claude</li><li>Microsoft Office</li></ul></div></div>
+    </div>
+  </section>
+
+  <section class="contact sec" id="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="contact-info">
+        <h2 id="contact-title">Tell me what you’re working on.</h2>
+        <p class="lede">Share a little about your business and where you need help. I’ll reply by email within <span class="ph">[response time]</span>.</p>
+        <ul class="links">
+          <li><span>Email</span><span class="ph">[email address]</span></li>
+          <li><span>LinkedIn</span><span class="ph">[LinkedIn URL]</span></li>
+          <li><span>Instagram</span><span class="ph">[Instagram handle]</span></li>
+          <li><span>Based in</span><span class="ph">[City, time zone]</span></li>
+        </ul>
+      </div>
+      <!-- Replace YOUR_FORM_ID with a Formspree (or Web3Forms) endpoint to receive inquiries -->
+      <form id="inquiry" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="field">
+          <label for="f-name">Name</label>
+          <input id="f-name" name="name" autocomplete="name" required aria-describedby="e-name">
+          <p class="err" id="e-name"></p>
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email">
+          <p class="err" id="e-email"></p>
+        </div>
+        <div class="field">
+          <label for="f-company">Company <span class="opt">(optional)</span></label>
+          <input id="f-company" name="company" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="f-service">Service you’re interested in</label>
+          <select id="f-service" name="service" required aria-describedby="e-service">
+            <option value="">Choose a service</option>
+            <option>Paid advertising &amp; lead generation</option><option>Creative research &amp; production</option><option>Social media management</option><option>Funnel &amp; CRM development</option><option>Marketing automation</option>
+            <option>Not sure yet</option>
+          </select>
+          <p class="err" id="e-service"></p>
+        </div>
+        <div class="field full">
+          <label for="f-details">Project details</label>
+          <textarea id="f-details" name="details" required aria-describedby="e-details" placeholder="What are you trying to achieve, and what’s in place already?"></textarea>
+          <p class="err" id="e-details"></p>
+        </div>
+        <div class="form-foot">
+          <button class="btn btn-primary" type="submit">Send inquiry</button>
+          <p class="status" id="form-status" role="status"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</div>
+
+<article class="case" id="case-ad-publishing" aria-labelledby="case-ad-publishing-t">
+  <div class="wrap">
+    <a class="back" href="#work">Back to selected work</a>
+    <p class="case-cat">Paid advertising</p>
+    <h2 id="case-ad-publishing-t" tabindex="-1">Publishing Meta campaigns for DTC brands</h2>
+    <p class="case-lead">Ongoing ad publishing and execution support for an agency that runs Meta campaigns on behalf of direct-to-consumer brands.</p>
+    <dl class="case-facts">
+      <div><dt>Client</dt><dd>Client A, DTC advertising agency</dd></div>
+      <div><dt>Industry</dt><dd>Direct-to-consumer brands</dd></div>
+      <div><dt>My role</dt><dd>Ad publisher and advertising research support</dd></div>
+      <div><dt>Tools</dt><dd>Meta Business Suite</dd></div>
+    </dl>
+    <div class="case-hero"><div class="mock t-plum" aria-hidden="true"><div class="m-ad"><i class="m-av"></i><i class="m-l s"></i><i class="m-img"></i><i class="m-l"></i><i class="m-btn"></i></div></div><p class="media-note"><span class="ph">[Replace with a project screenshot or video]</span></p></div>
+    <div class="case-body">
+      <section><h3>Business objective</h3><p>Get campaigns live accurately and on schedule, so the agency&#x27;s strategy reaches the market as planned.</p></section>
+      <section><h3>Challenges</h3><p><span class="ph">[Describe a real challenge, e.g. volume of launches or number of brand accounts.]</span></p></section>
+      <section><h3>Approach and execution</h3><ul><li>Publish and execute campaigns in Meta Business Suite.</li><li>Support advertising execution across the agency&#x27;s DTC brand accounts.</li><li><span class="ph">[Add a specific step from your process.]</span></li></ul></section>
+      <section><h3>Deliverables</h3><ul><li>Published campaigns</li><li><span class="ph">[Add deliverables]</span></li></ul></section>
+      <section><h3>Results</h3><p><span class="ph">[Results will be added once verified. Leave this blank rather than estimating.]</span></p></section>
+    </div>
+    <div class="gallery">
+      <div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Video or image]</span></div>
+    </div>
+    <a class="next" href="#case-competitor-research"><span>Next project</span>Competitor ad research for creative direction</a>
+  </div>
+</article>
+<article class="case" id="case-competitor-research" aria-labelledby="case-competitor-research-t">
+  <div class="wrap">
+    <a class="back" href="#work">Back to selected work</a>
+    <p class="case-cat">Competitor ad research</p>
+    <h2 id="case-competitor-research-t" tabindex="-1">Competitor ad research for creative direction</h2>
+    <p class="case-lead">Research into competitor advertising to find creative angles and concepts the agency&#x27;s brands can use as reference.</p>
+    <dl class="case-facts">
+      <div><dt>Client</dt><dd>Client A, DTC advertising agency</dd></div>
+      <div><dt>Industry</dt><dd>Direct-to-consumer brands</dd></div>
+      <div><dt>My role</dt><dd>Advertising research support</dd></div>
+      <div><dt>Tools</dt><dd><span class="ph">[Research tools used]</span></dd></div>
+    </dl>
+    <div class="case-hero"><div class="mock t-surface" aria-hidden="true"><div class="m-grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><p class="media-note"><span class="ph">[Replace with a project screenshot or video]</span></p></div>
+    <div class="case-body">
+      <section><h3>Business objective</h3><p>Give the creative team a clear view of what competitors are running and which angles are worth using.</p></section>
+      <section><h3>Challenges</h3><p><span class="ph">[Describe a real challenge.]</span></p></section>
+      <section><h3>Approach and execution</h3><ul><li>Research competitor ads from <span class="ph">[sources used]</span>.</li><li>Analyse creatives for hooks, angles, formats, and messaging.</li><li>Identify concepts that can serve as references for brands.</li></ul></section>
+      <section><h3>Deliverables</h3><ul><li>Creative angle references</li><li><span class="ph">[Research document or board format]</span></li></ul></section>
+      <section><h3>Results</h3><p><span class="ph">[Results will be added once verified. Leave this blank rather than estimating.]</span></p></section>
+    </div>
+    <div class="gallery">
+      <div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Video or image]</span></div>
+    </div>
+    <a class="next" href="#case-lead-gen"><span>Next project</span>Lead generation campaigns for service businesses</a>
+  </div>
+</article>
+<article class="case" id="case-lead-gen" aria-labelledby="case-lead-gen-t">
+  <div class="wrap">
+    <a class="back" href="#work">Back to selected work</a>
+    <p class="case-cat">Lead generation</p>
+    <h2 id="case-lead-gen-t" tabindex="-1">Lead generation campaigns for service businesses</h2>
+    <p class="case-lead">Structuring, setting up, and managing Meta lead generation campaigns for service businesses across three industries.</p>
+    <dl class="case-facts">
+      <div><dt>Client</dt><dd>Client B, paid advertising &amp; lead generation</dd></div>
+      <div><dt>Industry</dt><dd>Marketing, bookkeeping, and automotive detailing</dd></div>
+      <div><dt>My role</dt><dd>Paid advertising specialist</dd></div>
+      <div><dt>Tools</dt><dd>Meta Business Suite</dd></div>
+    </dl>
+    <div class="case-hero"><div class="mock t-mauve" aria-hidden="true"><div class="m-form"><i class="m-l s"></i><i class="m-in"></i><i class="m-in"></i><i class="m-in"></i><i class="m-btn"></i></div></div><p class="media-note"><span class="ph">[Replace with a project screenshot or video]</span></p></div>
+    <div class="case-body">
+      <section><h3>Business objective</h3><p>Generate enquiries for service businesses through clearly structured Meta campaigns.</p></section>
+      <section><h3>Challenges</h3><p><span class="ph">[Describe a real challenge, e.g. adapting one approach to three very different industries.]</span></p></section>
+      <section><h3>Approach and execution</h3><ul><li>Structure each campaign around the business&#x27;s objective.</li><li>Set up and manage campaigns in Meta.</li><li>Research competitor ads to inform creative.</li><li>Support campaign strategy and execution.</li></ul></section>
+      <section><h3>Deliverables</h3><ul><li>Campaign structures</li><li>Live lead generation campaigns</li><li><span class="ph">[Add deliverables]</span></li></ul></section>
+      <section><h3>Results</h3><p><span class="ph">[Results will be added once verified. Leave this blank rather than estimating.]</span></p></section>
+    </div>
+    <div class="gallery">
+      <div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Video or image]</span></div>
+    </div>
+    <a class="next" href="#case-video-ads"><span>Next project</span>Short-form video ads</a>
+  </div>
+</article>
+<article class="case" id="case-video-ads" aria-labelledby="case-video-ads-t">
+  <div class="wrap">
+    <a class="back" href="#work">Back to selected work</a>
+    <p class="case-cat">Video &amp; creative</p>
+    <h2 id="case-video-ads-t" tabindex="-1">Short-form video ads</h2>
+    <p class="case-lead">Editing short-form video ads and producing creatives built around each business&#x27;s objective.</p>
+    <dl class="case-facts">
+      <div><dt>Client</dt><dd>Client B, paid advertising &amp; lead generation</dd></div>
+      <div><dt>Industry</dt><dd>Marketing, bookkeeping, and automotive detailing</dd></div>
+      <div><dt>My role</dt><dd>Creative support and video editing</dd></div>
+      <div><dt>Tools</dt><dd>CapCut, Canva</dd></div>
+    </dl>
+    <div class="case-hero"><div class="mock t-rose" aria-hidden="true"><div class="m-phone"><i class="m-play"></i></div></div><p class="media-note"><span class="ph">[Replace with a project screenshot or video]</span></p></div>
+    <div class="case-body">
+      <section><h3>Business objective</h3><p>Give each campaign creative that fits the offer, the audience, and the format.</p></section>
+      <section><h3>Challenges</h3><p><span class="ph">[Describe a real challenge.]</span></p></section>
+      <section><h3>Approach and execution</h3><ul><li>Research competitor ads and creative inspiration before editing.</li><li>Edit short-form video ads.</li><li>Produce static ad creatives.</li></ul></section>
+      <section><h3>Deliverables</h3><ul><li>Short-form video ads</li><li>Static ad creatives</li></ul></section>
+      <section><h3>Results</h3><p><span class="ph">[Results will be added once verified. Leave this blank rather than estimating.]</span></p></section>
+    </div>
+    <div class="gallery">
+      <div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Video or image]</span></div>
+    </div>
+    <a class="next" href="#case-social"><span>Next project</span>Social media management</a>
+  </div>
+</article>
+<article class="case" id="case-social" aria-labelledby="case-social-t">
+  <div class="wrap">
+    <a class="back" href="#work">Back to selected work</a>
+    <p class="case-cat">Social media</p>
+    <h2 id="case-social-t" tabindex="-1">Social media management</h2>
+    <p class="case-lead">Managing the client&#x27;s social media accounts, from planning content to producing and publishing it.</p>
+    <dl class="case-facts">
+      <div><dt>Client</dt><dd>Client C, digital marketing &amp; operations</dd></div>
+      <div><dt>Industry</dt><dd><span class="ph">[Industry]</span></dd></div>
+      <div><dt>My role</dt><dd>Digital marketing and operations support</dd></div>
+      <div><dt>Tools</dt><dd>Social media platforms, Canva, CapCut</dd></div>
+    </dl>
+    <div class="case-hero"><div class="mock t-plum" aria-hidden="true"><div class="m-feed"><i></i><i></i><i></i><i></i></div></div><p class="media-note"><span class="ph">[Replace with a project screenshot or video]</span></p></div>
+    <div class="case-body">
+      <section><h3>Business objective</h3><p>Keep the brand&#x27;s social presence consistent, organised, and on schedule.</p></section>
+      <section><h3>Challenges</h3><p><span class="ph">[Describe a real challenge.]</span></p></section>
+      <section><h3>Approach and execution</h3><ul><li>Plan content <span class="ph">[weekly or monthly]</span>.</li><li>Produce content, including video edits.</li><li>Publish and organise content across <span class="ph">[platforms]</span>.</li></ul></section>
+      <section><h3>Deliverables</h3><ul><li>Content plans</li><li>Published content</li><li><span class="ph">[Add deliverables]</span></li></ul></section>
+      <section><h3>Results</h3><p><span class="ph">[Results will be added once verified. Leave this blank rather than estimating.]</span></p></section>
+    </div>
+    <div class="gallery">
+      <div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Video or image]</span></div>
+    </div>
+    <a class="next" href="#case-funnels"><span>Next project</span>Funnels and landing pages</a>
+  </div>
+</article>
+<article class="case" id="case-funnels" aria-labelledby="case-funnels-t">
+  <div class="wrap">
+    <a class="back" href="#work">Back to selected work</a>
+    <p class="case-cat">Funnels &amp; landing pages</p>
+    <h2 id="case-funnels-t" tabindex="-1">Funnels and landing pages</h2>
+    <p class="case-lead">Building marketing funnels and landing pages that support the client&#x27;s acquisition.</p>
+    <dl class="case-facts">
+      <div><dt>Client</dt><dd>Client C, digital marketing &amp; operations</dd></div>
+      <div><dt>Industry</dt><dd><span class="ph">[Industry]</span></dd></div>
+      <div><dt>My role</dt><dd>Digital marketing and operations support</dd></div>
+      <div><dt>Tools</dt><dd>GoHighLevel</dd></div>
+    </dl>
+    <div class="case-hero"><div class="mock t-surface" aria-hidden="true"><div class="m-browser"><b><i></i><i></i><i></i></b><i class="m-hero"></i><i class="m-l"></i><i class="m-l s"></i></div></div><p class="media-note"><span class="ph">[Replace with a project screenshot or video]</span></p></div>
+    <div class="case-body">
+      <section><h3>Business objective</h3><p>Give leads a clear page to land on and a clear next step to take.</p></section>
+      <section><h3>Challenges</h3><p><span class="ph">[Describe a real challenge.]</span></p></section>
+      <section><h3>Approach and execution</h3><ul><li>Build landing pages and funnels in GoHighLevel.</li><li>Connect lead capture to the CRM.</li><li><span class="ph">[Describe page structure and goals.]</span></li></ul></section>
+      <section><h3>Deliverables</h3><ul><li>Landing pages</li><li>Funnels</li><li><span class="ph">[Add deliverables]</span></li></ul></section>
+      <section><h3>Results</h3><p><span class="ph">[Results will be added once verified. Leave this blank rather than estimating.]</span></p></section>
+    </div>
+    <div class="gallery">
+      <div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Video or image]</span></div>
+    </div>
+    <a class="next" href="#case-crm-automation"><span>Next project</span>GoHighLevel CRM and workflow automation</a>
+  </div>
+</article>
+<article class="case" id="case-crm-automation" aria-labelledby="case-crm-automation-t">
+  <div class="wrap">
+    <a class="back" href="#work">Back to selected work</a>
+    <p class="case-cat">CRM &amp; automation</p>
+    <h2 id="case-crm-automation-t" tabindex="-1">GoHighLevel CRM and workflow automation</h2>
+    <p class="case-lead">Setting up GoHighLevel, organising pipelines and lead journeys, and building workflow automations.</p>
+    <dl class="case-facts">
+      <div><dt>Client</dt><dd>Client C, digital marketing &amp; operations</dd></div>
+      <div><dt>Industry</dt><dd><span class="ph">[Industry]</span></dd></div>
+      <div><dt>My role</dt><dd>Digital marketing and operations support</dd></div>
+      <div><dt>Tools</dt><dd>GoHighLevel</dd></div>
+    </dl>
+    <div class="case-hero"><div class="mock t-mauve" aria-hidden="true"><div class="m-flow"><i class="n"></i><i class="e"></i><i class="n"></i><i class="e"></i><i class="n"></i></div></div><p class="media-note"><span class="ph">[Replace with a project screenshot or video]</span></p></div>
+    <div class="case-body">
+      <section><h3>Business objective</h3><p>Make sure every lead is tracked, followed up, and moved forward without manual chasing.</p></section>
+      <section><h3>Challenges</h3><p><span class="ph">[Describe a real challenge.]</span></p></section>
+      <section><h3>Approach and execution</h3><ul><li>Set up GoHighLevel for the business.</li><li>Organise CRM pipelines and lead journeys.</li><li>Build workflow automations for <span class="ph">[follow-up, appointments, or email]</span>.</li></ul></section>
+      <section><h3>Deliverables</h3><ul><li>CRM pipelines</li><li>Workflow automations</li><li><span class="ph">[Add deliverables]</span></li></ul></section>
+      <section><h3>Results</h3><p><span class="ph">[Results will be added once verified. Leave this blank rather than estimating.]</span></p></section>
+    </div>
+    <div class="gallery">
+      <div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Screenshot]</span></div><div class="shot"><span class="ph">[Video or image]</span></div>
+    </div>
+    <a class="next" href="#case-ad-publishing"><span>Next project</span>Publishing Meta campaigns for DTC brands</a>
+  </div>
+</article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>&copy; 2026 Gayle. Digital marketing &amp; operations.</p>
+    <a href="#top">Back to top</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var doc=document.documentElement, body=document.body;
+  body.classList.remove('no-js'); doc.classList.add('js');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var baseTitle=document.title;
+
+  // Hero headline: split into words for the load reveal (screen readers get the original text)
+  var h1=document.getElementById('hero-title');
+  if(h1){
+    var text=h1.textContent;
+    h1.setAttribute('aria-label',text);
+    h1.innerHTML=text.split(' ').map(function(w,i){
+      return '<span class="w" aria-hidden="true"><span style="--i:'+i+'">'+w+'</span></span>';
+    }).join(' ');
+  }
+
+  // Header border once scrolled
+  var header=document.querySelector('.site-header');
+  var onScroll=function(){header.classList.toggle('scrolled',window.scrollY>8)};
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  // Mobile menu
+  var menuBtn=document.querySelector('.menu-btn'), links=document.getElementById('nav-links');
+  menuBtn.addEventListener('click',function(){
+    var open=menuBtn.getAttribute('aria-expanded')!=='true';
+    menuBtn.setAttribute('aria-expanded',open); links.classList.toggle('open',open);
+  });
+  links.addEventListener('click',function(e){
+    if(e.target.closest('a')){menuBtn.setAttribute('aria-expanded','false');links.classList.remove('open')}
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&links.classList.contains('open')){menuBtn.click();menuBtn.focus()}
+  });
+
+  // Pipeline rail: highlight the stage nearest the middle of the viewport (no scroll hijacking)
+  var stages=[].slice.call(document.querySelectorAll('.stage'));
+  var railLinks=[].slice.call(document.querySelectorAll('.rail a'));
+  var railList=document.querySelector('.rail ol');
+  if('IntersectionObserver' in window && stages.length){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        var n=+en.target.dataset.step;
+        railLinks.forEach(function(a,i){a.classList.toggle('on',i===n); if(i===n) a.setAttribute('aria-current','step'); else a.removeAttribute('aria-current')});
+        railList.style.setProperty('--p',stages.length>1?n/(stages.length-1):1);
+      });
+    },{rootMargin:'-45% 0px -45% 0px'});
+    stages.forEach(function(s){io.observe(s)});
+  }
+
+  // Project filter
+  var filterBar=document.querySelector('.filters'), grid=document.getElementById('grid');
+  var cards=[].slice.call(grid.querySelectorAll('.card')), status=document.getElementById('filter-status');
+  filterBar.hidden=false;
+  filterBar.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    var f=b.dataset.filter, shown=0;
+    filterBar.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    cards.forEach(function(c){var on=f==='all'||c.dataset.cat===f; c.hidden=!on; if(on) shown++});
+    grid.classList.toggle('filtering',f!=='all');
+    status.textContent='Showing '+shown+' project'+(shown===1?'':'s');
+  });
+
+  // Case study routing via #case-… (CSS :target does the showing; this handles focus, title, scroll)
+  var wasCase=false;
+  function route(){
+    var h=location.hash, el=h.length>1?document.getElementById(decodeURIComponent(h.slice(1))):null;
+    var isCase=!!(el&&el.classList.contains('case'));
+    document.querySelectorAll('.case.active').forEach(function(c){c.classList.remove('active')});
+    body.classList.toggle('viewing-case',isCase);
+    if(isCase){
+      el.classList.add('active');
+      window.scrollTo(0,0);
+      var t=el.querySelector('h2'); t.focus({preventScroll:true});
+      document.title=t.textContent+' | '+baseTitle.split(' | ')[0];
+    }else{
+      document.title=baseTitle;
+      if(wasCase&&el) requestAnimationFrame(function(){el.scrollIntoView({behavior:'instant'})});
+    }
+    wasCase=isCase;
+  }
+  window.addEventListener('hashchange',route); route();
+
+  // Inquiry form: inline validation, then submit to the configured endpoint
+  var form=document.getElementById('inquiry'), fstatus=document.getElementById('form-status');
+  form.noValidate=true;
+  var msgs={name:'Enter your name.',email:'Enter an email address, like name@company.com.',service:'Choose the service you are interested in.',details:'Add a few details about your project.'};
+  function check(input){
+    var key=input.name, err=document.getElementById('e-'+key); if(!err) return true;
+    var bad=input.required&&!input.value.trim();
+    if(!bad&&input.type==='email') bad=!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+    input.setAttribute('aria-invalid',bad); err.textContent=bad?msgs[key]:''; return !bad;
+  }
+  form.addEventListener('blur',function(e){if(e.target.matches('[required]')&&e.target.value) check(e.target)},true);
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var fields=[].slice.call(form.querySelectorAll('[required]')), first=null;
+    fields.forEach(function(f){if(!check(f)&&!first) first=f});
+    if(first){first.focus(); fstatus.textContent=''; return}
+    if(form.action.indexOf('YOUR_FORM_ID')>-1){
+      fstatus.textContent='This form is not connected yet. Add a Formspree form ID to the form action to start receiving inquiries.'; return;
+    }
+    var btn=form.querySelector('button[type=submit]'); btn.disabled=true; fstatus.textContent='Sending…';
+    fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}})
+      .then(function(r){
+        if(!r.ok) throw 0;
+        form.reset(); fstatus.textContent='Inquiry sent. Thank you, I will reply by email soon.';
+      })
+      .catch(function(){fstatus.textContent='Your inquiry could not be sent. Check your connection and try again, or email me directly.'})
+      .finally(function(){btn.disabled=false});
+  });
+})();
+</script>
+</body>
+</html>
