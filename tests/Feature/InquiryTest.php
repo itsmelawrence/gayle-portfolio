@@ -55,9 +55,15 @@ class InquiryTest extends TestCase
     {
         $this->post('/inquiries', $this->inquiry)
             ->assertRedirect(route('home').'#contact')
-            ->assertSessionHas('inquiry_sent');
+            ->assertSessionHas('inquiry_sent', ['name' => 'Sam Lee', 'email' => 'sam@company.com']);
 
         $this->assertDatabaseCount('leads', 1);
+
+        // The confirmation replaces the form on the page it redirects to
+        $this->withSession(['inquiry_sent' => ['name' => 'Sam Lee', 'email' => 'sam@company.com']])->get('/')
+            ->assertSee('<form id="inquiry" action="'.route('inquiries.store').'" method="POST"  hidden >', false)
+            ->assertSee('Thanks<span class="sent-name">, Sam</span>! Your inquiry is in.', false)
+            ->assertSee('<strong class="sent-email">sam@company.com</strong>', false);
     }
 
     public function test_invalid_inquiry_returns_field_errors(): void

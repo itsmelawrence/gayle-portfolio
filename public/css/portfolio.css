@@ -427,13 +427,18 @@ section{position:relative}
 .links li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
 .links li span:first-child{color:var(--muted)}
 form{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+form[hidden]{display:none}
 .field{display:grid;gap:8px}
 .field.full{grid-column:1/-1}
 label{font-weight:600;font-size:.95rem}
 label .opt{font-weight:400;color:var(--muted)}
-input,select,textarea{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--field);border-radius:8px;padding:12px 14px;min-height:50px;width:100%}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--field);border-radius:8px;padding:12px 14px;min-height:50px;width:100%;transition:border-color .2s,box-shadow .25s,background .25s}
 textarea{min-height:150px;resize:vertical}
 input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+/* Focus: the label takes the accent and the field gets a soft glow ring */
+label{transition:color .2s}
+.field:focus-within>label{color:var(--accent)}
+.field input:focus,.field select:focus,.field textarea:focus{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 16%,transparent)}
 [aria-invalid="true"]{border-color:#B3261E}
 .err{color:#9F1F1A;font-size:.9rem;font-weight:500}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .err{color:#FFB4AB}}
@@ -441,6 +446,50 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px soli
 .err:empty{display:none}
 .form-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px}
 .form-foot .btn{border:none;cursor:pointer}
+/* Send button: label slides up and a spinner takes its place while sending */
+.send-btn{position:relative;overflow:hidden;min-width:168px}
+.send-label{display:inline-block;transition:translate .3s cubic-bezier(.2,.7,.1,1),opacity .2s}
+.send-spin{position:absolute;left:50%;top:50%;width:20px;height:20px;margin:-10px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;opacity:0;translate:0 14px;transition:opacity .2s,translate .3s cubic-bezier(.2,.7,.1,1)}
+.send-btn.loading{pointer-events:none}
+.send-btn.loading .send-label{translate:0 -140%;opacity:0}
+.send-btn.loading .send-spin{opacity:1;translate:0 0;animation:spin .7s linear infinite}
+@keyframes spin{to{rotate:360deg}}
+/* Form-to-confirmation swap: the wrapper animates its height between the two */
+.inquiry{position:relative;transition:height .55s cubic-bezier(.2,.7,.1,1)}
+#inquiry.leaving{opacity:0;scale:.97;filter:blur(4px);transition:opacity .35s,scale .35s,filter .35s}
+.sent{display:grid;justify-items:start;gap:16px;padding:clamp(28px,4vw,44px);border-radius:24px;background:var(--paper);border:1px solid var(--line);box-shadow:0 24px 50px -30px rgba(42,21,32,.45)}
+.sent:focus{outline:none}
+.sent[hidden]{display:none}
+.sent-mark{position:relative;width:64px;height:64px;margin-bottom:6px}
+.sent-mark svg{position:relative;display:block;width:64px;height:64px}
+.sent-mark circle{fill:var(--btn)}
+.sent-mark path{fill:none;stroke:var(--btn-ink);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:36;stroke-dashoffset:0}
+.sent-mark i{position:absolute;left:50%;top:50%;width:9px;height:9px;margin:-4.5px;border-radius:46% 54% 42% 58%/55% 45% 55% 45%;background:var(--t-rose);opacity:0}
+.sent-mark i:nth-child(even){background:var(--t-mauve);width:7px;height:7px;margin:-3.5px}
+.sent-title{font-size:clamp(1.6rem,2.6vw,2.15rem);line-height:1.2;max-width:22ch}
+.sent-copy{color:var(--muted);max-width:46ch}
+.sent-copy strong{color:var(--ink);font-weight:600;word-break:break-all}
+.sent-next{list-style:none;margin:8px 0 0;padding:18px 0 0;border-top:1px solid var(--line);display:grid;gap:12px;width:100%}
+.sent-next li{display:flex;gap:14px;align-items:baseline}
+.sent-next b{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--surface);color:var(--accent);font-size:.8rem}
+.sent-next span{color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){
+  /* Fields rise in one after another the first time the form scrolls into view (portfolio.js sets --d and .in-view) */
+  .js #inquiry:not(.in-view)>.field,.js #inquiry:not(.in-view)>.form-foot,.js #inquiry:not(.in-view)>.form-note{opacity:0;translate:0 16px}
+  .js #inquiry.in-view>.field,.js #inquiry.in-view>.form-foot,.js #inquiry.in-view>.form-note{animation:field-in .6s cubic-bezier(.2,.7,.1,1) backwards;animation-delay:calc(var(--d,0)*70ms)}
+  .shake{animation:shake .4s cubic-bezier(.36,.07,.19,.97)}
+  .sent.in .sent-mark svg{animation:bubble-pop .7s cubic-bezier(.3,.7,.4,1) backwards}
+  .sent.in .sent-mark path{animation:draw-check .45s .35s cubic-bezier(.65,0,.35,1) backwards}
+  .sent.in .sent-mark i{animation:petal .9s .25s cubic-bezier(.2,.7,.1,1) both}
+  .sent.in>:not(.sent-mark){animation:field-in .6s cubic-bezier(.2,.7,.1,1) backwards}
+  .sent.in .sent-title{animation-delay:.3s}.sent.in .sent-copy{animation-delay:.4s}.sent.in .sent-next{animation-delay:.5s}
+  .sent.in .sent-next li{animation:field-in .5s cubic-bezier(.2,.7,.1,1) backwards}
+  .sent.in .sent-next li:nth-child(1){animation-delay:.6s}.sent.in .sent-next li:nth-child(2){animation-delay:.7s}.sent.in .sent-next li:nth-child(3){animation-delay:.8s}
+}
+@keyframes field-in{from{opacity:0;translate:0 16px}}
+@keyframes shake{20%,60%{translate:-6px 0}40%,80%{translate:6px 0}}
+@keyframes draw-check{from{stroke-dashoffset:36}}
+@keyframes petal{0%{opacity:0;transform:rotate(var(--a)) translateY(0) scale(.3)}30%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateY(-50px) scale(1)}}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .turnstile:has(.cf-turnstile:empty){display:none}
 .form-note{grid-column:1/-1;margin:-4px 0 0;color:var(--muted);font-size:.85rem}

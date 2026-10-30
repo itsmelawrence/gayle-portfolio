@@ -161,7 +161,9 @@
           @include('partials.contact-link', ['label' => 'Based in', 'value' => $contact['location'], 'placeholder' => 'City, time zone'])
         </ul>
       </div>
-      <form id="inquiry" action="{{ route('inquiries.store') }}" method="POST">
+      @php($sent = session('inquiry_sent'))
+      <div class="inquiry">
+      <form id="inquiry" action="{{ route('inquiries.store') }}" method="POST" @if ($sent) hidden @endif>
         @csrf
         {{-- Honeypot: hidden from people and screen readers; bots that fill it are dropped quietly --}}
         <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
@@ -202,11 +204,26 @@
         @push('scripts')<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>@endpush
         @endif
         <div class="form-foot">
-          <button class="btn btn-primary" type="submit">Send inquiry</button>
-          <p class="status" id="form-status" role="status">{{ session('inquiry_sent') ? 'Inquiry sent. Thank you, I will reply by email soon.' : '' }}</p>
+          <button class="btn btn-primary send-btn" type="submit"><span class="send-label">Send inquiry</span><span class="send-spin" aria-hidden="true"></span></button>
+          <p class="status" id="form-status" role="status"></p>
         </div>
         <p class="form-note">Your details are only used to reply to your inquiry.</p>
       </form>
+      {{-- Replaces the form after a successful send and stays until the page is reloaded. portfolio.js fills in the name and email. --}}
+      <div class="sent" id="inquiry-sent" tabindex="-1" @unless ($sent) hidden @endunless>
+        <div class="sent-mark" aria-hidden="true">
+          @for ($i = 0; $i < 8; $i++)<i style="--a:{{ $i * 45 + 22 }}deg"></i>@endfor
+          <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="26"/><path d="M15.5 27.5l7 7 14-15.5"/></svg>
+        </div>
+        <h3 class="sent-title">Thanks<span class="sent-name">{{ is_array($sent) ? ', '.Str::before($sent['name'], ' ') : '' }}</span>! Your inquiry is in.</h3>
+        <p class="sent-copy">I’ll reply to <strong class="sent-email">{{ is_array($sent) ? $sent['email'] : 'your inbox' }}</strong> {{ $contact['response_time'] ? 'within '.$contact['response_time'] : 'soon' }}. Keep an eye on your spam folder, just in case.</p>
+        <ol class="sent-next">
+          <li><b>1</b><span>I read through your details and goals.</span></li>
+          <li><b>2</b><span>I reply with a few questions or a time to talk.</span></li>
+          <li><b>3</b><span>We agree on a plan before any work starts.</span></li>
+        </ol>
+      </div>
+      </div>
     </div>
   </section>
 

@@ -114,6 +114,39 @@
 
   // Inquiry form: inline validation, then submit to the Laravel inquiries route
   var form=document.getElementById('inquiry'), fstatus=document.getElementById('form-status');
+  var sent=document.getElementById('inquiry-sent'), wrap=form.parentNode;
+
+  // Fields rise in one after another the first time the form scrolls into view
+  [].forEach.call(form.querySelectorAll(':scope>.field,:scope>.form-foot,:scope>.form-note'),function(el,i){el.style.setProperty('--d',i)});
+  if('IntersectionObserver' in window&&!reduce){
+    var reveal=new IntersectionObserver(function(en){if(en[0].isIntersecting){form.classList.add('in-view'); reveal.disconnect()}},{threshold:.15});
+    reveal.observe(form);
+  }else form.classList.add('in-view');
+
+  function shake(el){
+    if(reduce) return;
+    el.classList.remove('shake'); el.offsetWidth; el.classList.add('shake');
+    el.addEventListener('animationend',function(){el.classList.remove('shake')},{once:true});
+  }
+
+  // Success: the form fades away and the wrapper eases to the confirmation's height. The note stays until reload.
+  function showSent(name,email){
+    sent.querySelector('.sent-name').textContent=name?', '+name.split(/\s+/)[0]:'';
+    sent.querySelector('.sent-email').textContent=email;
+    function swap(){
+      form.hidden=true; sent.hidden=false; sent.classList.add('in');
+      sent.focus({preventScroll:true});
+      if(sent.getBoundingClientRect().top<0) sent.scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'});
+    }
+    if(reduce){swap(); return}
+    wrap.style.height=form.offsetHeight+'px';
+    form.classList.add('leaving');
+    setTimeout(function(){
+      swap();
+      wrap.style.height=sent.offsetHeight+'px';
+      setTimeout(function(){wrap.style.height=''},600);
+    },360);
+  }
   // Remember where this visit started (UTM tags, referrer, landing page) and send it with the inquiry
   var visit=null;
   try{visit=JSON.parse(sessionStorage.getItem('visit'))}catch(e){}
@@ -141,11 +174,11 @@
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var fields=[].slice.call(form.querySelectorAll('[required]')), first=null;
-    fields.forEach(function(f){if(!check(f)&&!first) first=f});
+    fields.forEach(function(f){if(!check(f)){shake(f); if(!first) first=f}});
     if(first){first.focus(); fstatus.textContent=''; return}
     var ts=form.elements['cf-turnstile-response'];
     if(form.querySelector('.cf-turnstile')&&(!ts||!ts.value)){fstatus.textContent='Please wait a moment while we check you’re not a bot, then try again.'; return}
-    var btn=form.querySelector('button[type=submit]'); btn.disabled=true; fstatus.textContent='Sending…';
+    var btn=form.querySelector('button[type=submit]'); btn.disabled=true; btn.classList.add('loading'); fstatus.textContent='Sending…';
     var token=document.querySelector('meta[name=csrf-token]').content;
     fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json','X-CSRF-TOKEN':token}})
       .then(function(r){
@@ -160,10 +193,10 @@
           if(firstBad){firstBad.focus(); fstatus.textContent=''}
         });
         if(!r.ok) throw 0;
-        form.reset(); fillAttribution(); fstatus.textContent='Inquiry sent. Thank you, I will reply by email soon.';
+        showSent(form.elements.name.value.trim(),form.elements.email.value.trim());
       })
       .catch(function(){fstatus.textContent='Your inquiry could not be sent. Check your connection and try again, or email me directly.'})
-      .finally(function(){btn.disabled=false; if(window.turnstile) window.turnstile.reset()});
+      .finally(function(){btn.disabled=false; btn.classList.remove('loading'); if(window.turnstile) window.turnstile.reset()});
   });
 })();
 

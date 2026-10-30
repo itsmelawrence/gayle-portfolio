@@ -21,7 +21,7 @@ class InquiryController extends Controller
 
         return $request->expectsJson()
             ? response()->json(['message' => 'Inquiry sent.'])
-            : redirect()->to(route('home').'#contact')->with('inquiry_sent', true);
+            : redirect()->to(route('home').'#contact')->with('inquiry_sent', $request->safe()->only(['name', 'email']));
     }
 
     private function store(StoreInquiryRequest $request): void
