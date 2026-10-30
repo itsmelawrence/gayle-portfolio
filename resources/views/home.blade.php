@@ -61,6 +61,7 @@
   </section>
 
   <section class="work sec" id="work" aria-labelledby="work-title">
+    <canvas class="dots" aria-hidden="true"></canvas>
     <div class="wrap">
       <div class="sec-head">
         <h2 id="work-title">Selected work</h2>
