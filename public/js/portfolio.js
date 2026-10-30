@@ -266,17 +266,23 @@
   });
 
   // Selected work: a dot field rolling in a slow wave, in the --dots-* tokens. Dots swell, brighten, and part
-  // around the cursor like a lens; a click sends a ripple ring across the grid. Dots under text and cards are left out
-  // so the field flows around the content instead of running through it.
-  var GAP=26, work=document.querySelector('.work'), CLEAR='.sec-head>*,.filters button,.card-meta,.card h3,.card .mock';
+  // around the cursor like a lens; a click sends a ripple ring across the grid. Under text the dots stay faint and small
+  // (fading back to full strength just outside it), so the field carries on without hurting readability.
+  var GAP=26, work=document.querySelector('.work'), TEXT='.sec-head>*,.filters button,.card-meta,.card h3';
+  var FLOOR=.22, FEATHER=36;
   var dots=backdrop(work, Math.min(window.devicePixelRatio||1,2), {
     dots:[], ripples:[], lens:0, base:[0,0,0], hot:[0,0,0], alpha:.5,
     mask:function(s){
-      var box=s.stage.getBoundingClientRect(), pad=8, rects=[].map.call(s.stage.querySelectorAll(CLEAR),function(el){
-        var r=el.getBoundingClientRect(); return r.width?[r.left-box.left-pad,r.top-box.top-pad,r.right-box.left+pad,r.bottom-box.top+pad]:null;
+      var box=s.stage.getBoundingClientRect(), rects=[].map.call(s.stage.querySelectorAll(TEXT),function(el){
+        var r=el.getBoundingClientRect(); return r.width?[r.left-box.left,r.top-box.top,r.right-box.left,r.bottom-box.top]:null;
       }).filter(Boolean);
       this.dots.forEach(function(d){
-        d.off=rects.some(function(r){return d.hx>r[0]&&d.hx<r[2]&&d.hy>r[1]&&d.hy<r[3]});
+        // Distance from the dot to the nearest text box (0 inside), eased from FLOOR up to full strength
+        var near=rects.reduce(function(m,r){
+          var dx=Math.max(r[0]-d.hx,0,d.hx-r[2]), dy=Math.max(r[1]-d.hy,0,d.hy-r[3]);
+          return Math.min(m,Math.sqrt(dx*dx+dy*dy));
+        },Infinity);
+        var f=Math.min(1,near/FEATHER); d.dim=FLOOR+(1-FLOOR)*f*f*(3-2*f);
       });
     },
     theme:function(s, cs){
@@ -287,7 +293,7 @@
     resize:function(s){
       var dots=this.dots=[], cols=Math.ceil(s.W/GAP)+1, rows=Math.ceil(s.H/GAP)+1;
       var ox=(s.W-(cols-1)*GAP)/2, oy=(s.H-(rows-1)*GAP)/2;
-      for(var y=0;y<rows;y++) for(var x=0;x<cols;x++) dots.push({hx:ox+x*GAP, hy:oy+y*GAP, x:ox+x*GAP, y:oy+y*GAP, heat:0, off:false});
+      for(var y=0;y<rows;y++) for(var x=0;x<cols;x++) dots.push({hx:ox+x*GAP, hy:oy+y*GAP, x:ox+x*GAP, y:oy+y*GAP, heat:0, dim:1});
       this.mask(s);
     },
     step:function(s, dt){
@@ -314,11 +320,10 @@
       var ctx=s.ctx, t=s.t, base=this.base, hot=this.hot, alpha=this.alpha, TAU=Math.PI*2, cool='rgb('+base.join(',')+')';
       ctx.setTransform(s.scale,0,0,s.scale,0,0); ctx.clearRect(0,0,s.W,s.H);
       this.dots.forEach(function(d){
-        if(d.off) return;
-        // Two slow crossing waves give the field its rolling swell
+        // Two slow crossing waves give the field its rolling swell; dim keeps dots (and the cursor lens) quiet under text
         var wave=.5+.25*Math.sin(d.hx*.011+t*.7)+.25*Math.sin(d.hy*.014-t*.5+d.hx*.004);
-        var h=d.heat, r=1.3+wave*1.7+h*3.4;
-        ctx.globalAlpha=Math.min(1,alpha*(.4+wave*.6+h*.7));
+        var h=d.heat*d.dim, r=(1.3+wave*1.7+h*3.4)*(.55+.45*d.dim);
+        ctx.globalAlpha=Math.min(1,alpha*(.4+wave*.6+h*.7))*d.dim;
         ctx.fillStyle=h<.01?cool:'rgb('+Math.round(base[0]+(hot[0]-base[0])*h)+','+Math.round(base[1]+(hot[1]-base[1])*h)+','+Math.round(base[2]+(hot[2]-base[2])*h)+')';
         ctx.beginPath(); ctx.arc(d.x,d.y,r,0,TAU); ctx.fill();
       });
