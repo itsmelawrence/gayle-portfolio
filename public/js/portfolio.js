@@ -174,6 +174,53 @@
   update();
 })();
 
+// Hero chat bubble: once the loader has cleared and the portrait has risen in, it pops in with a typing indicator,
+// stretches to fit the message, then types the message in letter by letter. Reduced motion shows it finished.
+(function(){
+  var bubble=document.querySelector('.chat-bubble');
+  if(!bubble) return;
+  var text=bubble.querySelector('.chat-text'), full=text.textContent;
+  // Shrink-wrap the bubble to its longest line (balanced wrapping leaves spare width otherwise)
+  function fitWidth(){
+    bubble.style.width='';
+    var range=document.createRange(); range.selectNodeContents(text);
+    var right=Math.max.apply(null,[].map.call(range.getClientRects(),function(r){return r.right}));
+    var box=bubble.getBoundingClientRect(), pad=parseFloat(getComputedStyle(bubble).paddingRight);
+    return Math.ceil(right-box.left+pad+1);
+  }
+  window.addEventListener('resize',function(){if(bubble.classList.contains('ready')&&!bubble.classList.contains('typing')) bubble.style.width=fitWidth()+'px'});
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){bubble.classList.add('ready'); bubble.style.width=fitWidth()+'px'; return}
+  // One span per letter; plain spaces between words keep normal line wrapping
+  text.textContent='';
+  full.split(' ').forEach(function(word,w){
+    if(w) text.appendChild(document.createTextNode(' '));
+    word.split('').forEach(function(c){var ch=document.createElement('span'); ch.className='ch'; ch.textContent=c; text.appendChild(ch)});
+  });
+  var chars=[].slice.call(text.querySelectorAll('.ch'));
+  function run(){
+    bubble.classList.add('typing','ready','pop');
+    setTimeout(function(){
+      // Stretch from the typing-indicator size to the message size, with an overshoot
+      var from=bubble.getBoundingClientRect();
+      bubble.classList.remove('typing');
+      var toW=fitWidth(); bubble.style.width=toW+'px';
+      var toH=bubble.getBoundingClientRect().height;
+      bubble.style.width=from.width+'px'; bubble.style.height=from.height+'px'; bubble.style.overflow='hidden';
+      bubble.offsetWidth;
+      bubble.style.transition='width .55s cubic-bezier(.3,1.45,.45,1),height .55s cubic-bezier(.3,1.45,.45,1)';
+      bubble.style.width=toW+'px'; bubble.style.height=toH+'px';
+      setTimeout(function(){
+        bubble.style.cssText='width:'+toW+'px';
+        chars.forEach(function(ch,i){setTimeout(function(){ch.classList.add('on')},i*34)});
+      },560);
+    },1300);
+  }
+  var root=document.documentElement;
+  function afterLoad(){setTimeout(run,1700)}   // the portrait's reveal runs ~1.75s after the loader clears
+  if(!root.classList.contains('loading')) afterLoad();
+  else new MutationObserver(function(_,obs){if(!root.classList.contains('loading')){obs.disconnect(); afterLoad()}}).observe(root,{attributes:true,attributeFilter:['class']});
+})();
+
 // Hero portrait: eases toward the cursor (--mx/--my, -1..1) so the photo tilts and the halo drifts behind it
 (function(){
   var stage=document.querySelector('.hero-stage'), fig=stage&&stage.querySelector('.hero-portrait');

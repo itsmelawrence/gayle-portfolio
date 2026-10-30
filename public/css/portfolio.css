@@ -13,6 +13,7 @@
   --arch-top:#D49A9A; --arch-bottom:#7C0E44;
   --highlight:rgba(212,154,154,.38);
   --intro-link:rgba(42,21,32,.72);
+  --bubble-bg:#FFFFFF;
   --display:"Fraunces", "Iowan Old Style", Georgia, serif;
   --sans:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --wrap:1240px; --gut:clamp(20px,5vw,56px); --header:76px;
@@ -31,6 +32,7 @@
     --arch-top:#AA5E7A; --arch-bottom:#5A0A31;
     --highlight:rgba(212,154,154,.24);
     --intro-link:#fcfcfc96;
+    --bubble-bg:#3A2430;
     color-scheme:dark;
   }
 }
@@ -46,6 +48,7 @@
   --arch-top:#AA5E7A; --arch-bottom:#5A0A31;
   --highlight:rgba(212,154,154,.24);
   --intro-link:#fcfcfc96;
+  --bubble-bg:#3A2430;
   color-scheme:dark;
 }
 
@@ -169,7 +172,7 @@ section{position:relative}
 }
 @media (min-width:1000px){
   .hero{--teaser-gap:clamp(48px,4.5vw,72px);display:grid;grid-template-columns:minmax(0,1fr) clamp(280px,27vw,420px);column-gap:clamp(24px,3vw,56px);
-    padding-top:clamp(48px,6vw,96px);padding-bottom:clamp(48px,4vw,64px)}
+    padding-top:clamp(84px,7vw,104px);padding-bottom:clamp(48px,4vw,64px)}
   .hero h1{font-size:clamp(3rem,5.6vw,6rem);text-wrap:balance}
   .hero-main .hero-row{grid-template-columns:1fr}
   .hero-portrait{grid-column:2;grid-row:1;align-self:end;margin:0 0 calc(-1*var(--teaser-gap));max-width:none}
@@ -180,6 +183,34 @@ section{position:relative}
   .js .hero-portrait{animation:portrait-in 1.3s cubic-bezier(.2,.7,.1,1) .45s both}
   .halo{animation:halo-morph 14s ease-in-out infinite}
 }
+/* Chat bubble above her head (tail points down at her): pops in with a squash-and-stretch, shows a typing indicator, then stretches to fit
+   the message as it types in (portfolio.js drives the phases). Drifts with the portrait's --mx/--my. */
+.chat-bubble{position:absolute;z-index:3;bottom:calc(100% - 10px);right:calc(-1*min(var(--gut) - 12px,30%));display:block;max-width:min(256px,80vw);padding:12px 16px;border-radius:20px 20px 20px 6px;
+  background:var(--bubble-bg);color:var(--ink);text-decoration:none;font-size:.95rem;font-weight:600;line-height:1.35;
+  box-shadow:0 18px 40px -20px rgba(42,21,32,.55);transform-origin:0 100%;translate:calc(var(--mx)*9px) calc(var(--my)*6px);transition:rotate .35s cubic-bezier(.3,1.6,.5,1),box-shadow .3s}
+.chat-bubble::after{content:"";position:absolute;left:4px;bottom:-8px;width:16px;height:12px;background:var(--bubble-bg);clip-path:polygon(0 0,100% 0,0 100%)}
+.chat-bubble:hover,.chat-bubble:focus-visible{rotate:-3deg;box-shadow:0 22px 44px -18px rgba(42,21,32,.6)}
+.chat-bubble:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.chat-msg{display:flex;align-items:baseline;gap:8px}
+.chat-text{text-wrap:balance}
+.chat-dot{flex:none;width:8px;height:8px;border-radius:50%;background:#3BB273;box-shadow:0 0 0 0 rgba(59,178,115,.5);translate:0 -1px}
+.chat-typing{display:none;gap:5px;padding:4px 2px}
+.chat-typing i{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.chat-text .ch{opacity:0;transition:opacity .15s}
+.chat-text .ch.on{opacity:1}
+.js .chat-bubble:not(.ready){opacity:0}
+.chat-bubble.typing .chat-typing{display:flex}
+.chat-bubble.typing .chat-msg{display:none}
+@media (prefers-reduced-motion:no-preference){
+  .chat-bubble.pop{animation:bubble-pop .75s cubic-bezier(.3,.7,.4,1) backwards}
+  .chat-typing i{animation:typing-dot 1s ease-in-out infinite}
+  .chat-typing i:nth-child(2){animation-delay:.15s}.chat-typing i:nth-child(3){animation-delay:.3s}
+  .chat-dot{animation:online-pulse 2.2s ease-out infinite}
+}
+@keyframes bubble-pop{0%{scale:.15 .15;opacity:0}40%{scale:1.14 .86;opacity:1}60%{scale:.93 1.07}78%{scale:1.03 .97}100%{scale:1 1}}
+@keyframes typing-dot{0%,60%,100%{translate:0 0;opacity:.45}30%{translate:0 -4px;opacity:1}}
+@keyframes online-pulse{0%{box-shadow:0 0 0 0 rgba(59,178,115,.5)}70%,100%{box-shadow:0 0 0 7px rgba(59,178,115,0)}}
+@media (max-width:999px){.hero-portrait:has(.chat-bubble){margin-top:112px}.chat-bubble{right:0;font-size:.88rem;padding:10px 14px}}
 @keyframes portrait-in{from{clip-path:circle(0% at 50% 78%);translate:0 40px}to{clip-path:circle(120% at 50% 60%);translate:0 0}}
 @keyframes halo-morph{
   33%{border-radius:58% 42% 52% 48%/45% 58% 42% 55%}

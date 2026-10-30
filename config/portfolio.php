@@ -17,6 +17,10 @@ return [
     // Cutout portrait (transparent background) shown in the hero, relative to public/. Set to null to hide it.
     'portrait' => 'images/gayle.webp',
 
+    // Chat bubble beside the hero portrait (types itself in, links to the contact form). Set to null to hide it.
+    // Reads as a follow-up to the hero's "Currently" card (three active clients).
+    'availability' => 'Three clients and counting. I’m ready to onboard yours next!',
+
     // Inquiries from the contact form are emailed here. Leave unset to show a placeholder.
     'contact' => [
         'email' => env('PORTFOLIO_EMAIL'),
@@ -367,10 +371,14 @@ return [
             ['name' => 'Kixie', 'icon' => 'kixie', 'brand' => '#EE2524'],
             ['name' => 'Mango', 'icon' => 'mango', 'brand' => '#424497'],
         ],
-        'AI & productivity' => [
+        'AI assistants' => [
             ['name' => 'ChatGPT', 'icon' => 'chatgpt', 'brand' => '#412991'],
             ['name' => 'Gemini', 'icon' => 'gemini', 'brand' => '#8E75B2'],
             ['name' => 'Claude', 'icon' => 'claude', 'brand' => '#D97757'],
+        ],
+        'Productivity & planning' => [
+            ['name' => 'Asana', 'icon' => 'asana', 'brand' => '#F06A6A'],
+            ['name' => 'Notion', 'icon' => 'notion', 'brand' => '#000000'],
             ['name' => 'Microsoft Office', 'icon' => 'microsoft-office', 'brand' => '#D83B01'],
         ],
     ],

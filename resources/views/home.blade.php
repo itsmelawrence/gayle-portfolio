@@ -27,6 +27,12 @@
     <figure class="hero-portrait">
       <span class="halo" aria-hidden="true"></span>
       <img src="{{ asset($portrait) }}" width="700" height="1080" alt="{{ $name }}, smiling, in a white puff-sleeve top" fetchpriority="high">
+      @if ($availability)
+      <a class="chat-bubble" href="#contact" aria-label="{{ $availability }} Get in touch.">
+        <span class="chat-typing" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="chat-msg" aria-hidden="true"><b class="chat-dot"></b><span class="chat-text">{{ $availability }}</span></span>
+      </a>
+      @endif
       <figcaption class="hero-aside hero-card fade"><strong>Currently</strong>Supporting three clients across DTC advertising, lead generation, and marketing operations.</figcaption>
     </figure>
     @endif
@@ -137,7 +143,7 @@
     <div class="wrap">
       <div class="sec-head">
         <h2 id="tools-title">Already fluent in your marketing stack</h2>
-        <p class="lede">No ramp-up time on day one. I work daily in Meta Business Suite, GoHighLevel, Canva, and CapCut, keep teams in sync on Slack, and use AI tools like ChatGPT, Gemini, and Claude to research, write, and automate faster.</p>
+        <p class="lede">No ramp-up time on day one. I work daily in Meta Business Suite, GoHighLevel, Canva, and CapCut, keep projects moving in Slack, Asana, and Notion, and use AI tools like ChatGPT, Gemini, and Claude to research, write, and automate faster.</p>
       </div>
       <div class="tool-grid">@foreach ($tools as $group => $items)<div class="tool-group"><h3>{{ $group }}</h3><ul>@foreach ($items as $tool)<li class="tool" tabindex="0" style="--brand:{{ $tool['brand'] }}">@isset($tool['icon']){!! file_get_contents(resource_path('icons/'.$tool['icon'].'.svg')) !!}@else<span class="tool-mono" aria-hidden="true">{{ $tool['monogram'] }}</span>@endisset<span class="tool-name">{{ $tool['name'] }}</span></li>@endforeach</ul></div>@endforeach</div>
     </div>
