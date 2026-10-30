@@ -11,6 +11,8 @@
   --dots-base:#AA5E7A; --dots-hot:#7C0E44; --dots-alpha:.7;
   --halo-1:#D49A9A; --halo-2:#F2DACE;
   --arch-top:#D49A9A; --arch-bottom:#7C0E44;
+  --highlight:rgba(212,154,154,.38);
+  --intro-link:rgba(42,21,32,.72);
   --display:"Fraunces", "Iowan Old Style", Georgia, serif;
   --sans:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --wrap:1240px; --gut:clamp(20px,5vw,56px); --header:76px;
@@ -27,6 +29,8 @@
     --dots-base:#AA5E7A; --dots-hot:#F2DACE; --dots-alpha:.85;
     --halo-1:#7C0E44; --halo-2:#AA5E7A;
     --arch-top:#AA5E7A; --arch-bottom:#5A0A31;
+    --highlight:rgba(212,154,154,.24);
+    --intro-link:#fcfcfc96;
     color-scheme:dark;
   }
 }
@@ -40,6 +44,8 @@
   --dots-base:#AA5E7A; --dots-hot:#F2DACE; --dots-alpha:.85;
   --halo-1:#7C0E44; --halo-2:#AA5E7A;
   --arch-top:#AA5E7A; --arch-bottom:#5A0A31;
+  --highlight:rgba(212,154,154,.24);
+  --intro-link:#fcfcfc96;
   color-scheme:dark;
 }
 
@@ -73,28 +79,51 @@ section{position:relative}
 .btn-ghost{background:transparent;color:var(--accent)}
 .btn-ghost:hover{background:var(--btn);color:var(--btn-ink)}
 
-/* ---------- Header ---------- */
-.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--paper);border-bottom:1px solid transparent;transition:border-color .3s}
-.site-header.scrolled{border-bottom-color:var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:var(--header);gap:24px}
-.brand{font-family:var(--display);font-size:1.3rem;text-decoration:none;font-weight:450}
-.nav-links{display:flex;align-items:center;gap:28px}
-.nav-links a{text-decoration:none;font-size:.95rem;font-weight:500}
-.nav-links a:not(.btn):hover{color:var(--accent);text-decoration:underline;text-underline-offset:6px}
-.nav-links .btn{min-height:42px;padding:0 20px}
+/* ---------- Header ----------
+   A floating glass capsule over the page (the header takes no layout space; content pads for it).
+   A pill indicator slides to the hovered link and rests on the section being read; the bar tucks away on scroll down. */
+.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;height:var(--header);margin-bottom:calc(-1*var(--header));padding-top:12px;pointer-events:none;transition:translate .45s cubic-bezier(.2,.7,.1,1)}
+.site-header.tucked{translate:0 calc(-100% - 12px)}
+.nav{height:100%}
+.nav-pill{position:relative;pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;height:58px;padding:0 8px 0 20px;border-radius:999px;
+  background:color-mix(in srgb,var(--paper) 62%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);
+  border:1px solid color-mix(in srgb,var(--line) 85%,transparent);transition:box-shadow .3s,background .3s}
+.scrolled .nav-pill{background:color-mix(in srgb,var(--paper) 78%,transparent);box-shadow:0 14px 34px -20px rgba(42,21,32,.55)}
+.brand{display:inline-flex;align-items:center;font-family:var(--display);font-size:1.25rem;text-decoration:none;font-weight:450}
+.nav-links{display:flex;align-items:center;gap:10px}
+.nav-menu{position:relative;display:flex;align-items:center}
+.nav-menu a{position:relative;z-index:1;padding:9px 15px;border-radius:999px;text-decoration:none;font-size:.92rem;font-weight:500;color:var(--muted);transition:color .25s}
+.nav-menu a:hover,.nav-menu a[aria-current]{color:var(--ink)}
+.nav-menu a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.nav-ind{position:absolute;left:0;top:0;height:100%;width:0;border-radius:999px;background:color-mix(in srgb,var(--accent) 14%,transparent);opacity:0;pointer-events:none;
+  transition:translate .4s cubic-bezier(.2,.7,.1,1),width .4s cubic-bezier(.2,.7,.1,1),opacity .25s}
+.nav-cta{min-height:42px;padding:0 16px 0 20px;gap:8px}
+.nav-cta svg{width:15px;height:15px;transition:translate .3s cubic-bezier(.2,.7,.1,1)}
+.nav-cta:hover svg{translate:3px 0}
+@media (prefers-reduced-motion:reduce){.site-header,.nav-ind{transition:none}}
 .menu-btn{display:none}
 @media (max-width:860px){
-  .js .menu-btn{display:inline-flex;align-items:center;gap:10px;background:none;border:1.5px solid var(--line);color:var(--ink);border-radius:999px;padding:0 16px;height:42px;font:600 .9rem var(--sans);cursor:pointer}
-  .js .nav-links{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);border-bottom:1px solid var(--line);padding:8px var(--gut) 24px;display:none}
-  .js .nav-links.open{display:flex}
-  .js .nav-links a:not(.btn){padding:14px 0;border-bottom:1px solid var(--line);font-size:1.05rem}
-  .js .nav-links .btn{margin-top:18px}
-  .nav-links{flex-wrap:wrap;gap:14px}
+  .js .menu-btn{display:inline-flex;align-items:center;gap:10px;background:none;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:0 16px;height:42px;font:600 .9rem var(--sans);cursor:pointer}
+  .menu-icon{position:relative;width:14px;height:10px}
+  .menu-icon i{position:absolute;left:0;right:0;height:1.5px;border-radius:2px;background:currentColor;transition:translate .3s,rotate .3s}
+  .menu-icon i:first-child{top:1px}.menu-icon i:last-child{bottom:1px}
+  .menu-btn[aria-expanded="true"] .menu-icon i:first-child{translate:0 3.25px;rotate:45deg}
+  .menu-btn[aria-expanded="true"] .menu-icon i:last-child{translate:0 -3.25px;rotate:-45deg}
+  .js .nav-links{position:absolute;top:calc(100% + 10px);left:0;right:0;flex-direction:column;align-items:stretch;gap:10px;padding:10px;border-radius:26px;
+    background:var(--paper);border:1px solid var(--line);box-shadow:0 24px 48px -24px rgba(42,21,32,.55);
+    opacity:0;visibility:hidden;translate:0 -8px;transition:opacity .25s,translate .3s cubic-bezier(.2,.7,.1,1),visibility .3s}
+  .js .nav-links.open{opacity:1;visibility:visible;translate:0 0}
+  .js .nav-menu{flex-direction:column;align-items:stretch}
+  .js .nav-menu a{padding:14px 16px;font-family:var(--display);font-size:1.35rem;color:var(--ink)}
+  .js .nav-menu a[aria-current]{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+  .js .nav-ind{display:none}
+  .js .nav-cta{min-height:50px;justify-content:center}
+  .nav-links{flex-wrap:wrap}
 }
 
 /* ---------- Hero ---------- */
 /* Lava lamp backdrop: blobs drawn on a low-res canvas, upscaled smoothly, faded in once running */
-.hero-stage{position:relative;isolation:isolate;overflow:hidden}
+.hero-stage{position:relative;isolation:isolate;overflow:hidden;padding-top:var(--header)}
 .lava{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease;
   -webkit-mask-image:linear-gradient(to bottom,transparent,#000 6%,#000 78%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 6%,#000 78%,transparent)}
 .lava.on{opacity:1}
@@ -103,6 +132,13 @@ section{position:relative}
 .hero h1{font-size:clamp(3rem,9.2vw,8.25rem);font-weight:300;line-height:.98;letter-spacing:-.035em;max-width:14ch}
 .hero-row{display:grid;grid-template-columns:7fr 5fr;gap:clamp(28px,6vw,96px);margin-top:clamp(36px,5vw,64px);align-items:end}
 .hero-intro{font-size:clamp(1.1rem,1.5vw,1.3rem);line-height:1.6;max-width:44ch}
+/* Intro phrases that jump to their service: subdued with a dashed underline; hover colours the text, turns the underline solid, and sweeps a full-height highlight in */
+.intro-lead{font-weight:600}
+.intro-link{color:var(--intro-link);text-decoration:underline dashed;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.24em;
+  padding:.04em .16em;margin:0 -.16em;border-radius:.3em;background:linear-gradient(var(--highlight),var(--highlight)) no-repeat 0 0/0% 100%;-webkit-box-decoration-break:clone;box-decoration-break:clone;
+  transition:background-size .4s cubic-bezier(.2,.7,.1,1),color .25s}
+.intro-link:hover,.intro-link:focus-visible{color:var(--accent);text-decoration-style:solid;background-size:100% 100%}
+.intro-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .hero-aside{border-top:1px solid var(--accent);padding-top:18px;color:var(--muted);font-size:.975rem;max-width:36ch}
 .hero-aside strong{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
@@ -187,7 +223,12 @@ section{position:relative}
 @media (max-width:900px){
   .sys-grid{grid-template-columns:1fr}
   .rail{display:none}
-  .stage,.stage:last-child{min-height:0;padding-block:40px}
+  /* Stages stack like cards: each sticks a little lower than the last, and portfolio.js shrinks and dims the ones being covered (--cover, 0..1) */
+  .stages{display:grid;gap:18px;padding-bottom:8px}
+  .stage,.stage:last-child{--cover:0;position:sticky;top:calc(var(--header) + 12px + var(--i)*14px);min-height:0;padding:28px 22px 30px;gap:14px;
+    border:1px solid var(--sys-line);border-radius:22px;background:color-mix(in srgb,var(--sys-bg) 90%,#fff);box-shadow:0 -18px 36px -24px rgba(0,0,0,.6);
+    transform-origin:50% 0;scale:calc(1 - var(--cover)*.07);filter:brightness(calc(1 - var(--cover)*.3))}
+  .stage .stage-no{font-size:3.2rem}
 }
 
 /* ---------- Services ---------- */
@@ -196,6 +237,11 @@ section{position:relative}
 .svc-intro .btn{justify-self:start;margin-top:8px}
 .svc{display:grid;grid-template-columns:5fr 7fr;gap:24px 40px;padding-block:36px;border-top:1px solid var(--line)}
 .svc:last-child{border-bottom:1px solid var(--line)}
+/* Arriving from an intro link: the service glows briefly so it's clear where you landed */
+.svc{position:relative;isolation:isolate}
+.svc::before{content:"";position:absolute;inset:6px calc(-1*clamp(12px,2vw,24px));z-index:-1;border-radius:14px;background:var(--highlight);opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:no-preference){.svc:target::before{animation:svc-arrive 1.8s ease-out .35s both}}
+@keyframes svc-arrive{25%{opacity:1}100%{opacity:0}}
 .svc h3{font-size:clamp(1.5rem,2.3vw,1.95rem)}
 .svc div{display:grid;gap:14px}
 .incl{color:var(--muted);font-size:.95rem}
@@ -211,7 +257,7 @@ section{position:relative}
   -webkit-mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent)}
 .dots.on{opacity:1}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
-@media (max-width:760px){.filters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}}
+@media (max-width:760px){.filters{gap:6px}.filters button{padding:8px 14px;font-size:.85rem}}
 .no-js .filters,.filters[hidden]{display:none}
 .filters button{flex:none;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:9px 18px;font:500 .9rem var(--sans);cursor:pointer}
 .filters button:hover{border-color:var(--accent)}
@@ -316,7 +362,29 @@ section{position:relative}
 .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px clamp(24px,4vw,56px)}
 .tool-group h3{font-family:var(--sans);font-weight:600;font-size:.95rem;letter-spacing:0;color:var(--muted);margin-bottom:14px}
 .tool-group ul{display:flex;flex-wrap:wrap;gap:8px}
-.tool-group li{border:1px solid var(--line);background:var(--surface-2);border-radius:6px;padding:8px 14px;font-weight:500}
+/* Tool chips: icon plus name on tablet and mobile; icon tiles with a tooltip on desktop.
+   Icons sit in the site's accent colour; hover turns the tile white so each logo shows in its real brand colour (dark logos included). */
+.tool{position:relative;display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:8px 14px 8px 10px;font-weight:500;
+  transition:background .25s,border-color .25s,color .25s,translate .25s cubic-bezier(.2,.7,.1,1)}
+.tool svg,.tool-mono{flex:none;width:22px;height:22px;color:var(--accent);transition:color .25s,background .25s}
+.tool-mono{display:grid;place-items:center;border-radius:6px;background:var(--accent);color:var(--paper);font:700 .62rem/1 var(--sans);letter-spacing:.02em}
+.tool:hover,.tool:focus-visible{background:#fff;border-color:color-mix(in srgb,var(--brand) 35%,transparent);color:#2A1520;outline:none}
+.tool:hover svg,.tool:focus-visible svg{color:var(--brand)}
+.tool:hover svg [style*="--on"],.tool:focus-visible svg [style*="--on"]{fill:var(--on)}
+.tool svg [style*="--on"]{transition:fill .25s}
+.tool:hover .tool-mono,.tool:focus-visible .tool-mono{background:var(--brand);color:#fff}
+@media (min-width:1000px){
+  .tool-grid{grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+  .tool-group ul{gap:8px}
+  .tool{width:56px;height:56px;justify-content:center;padding:0;border-radius:15px}
+  .tool:hover,.tool:focus-visible{translate:0 -3px}
+  .tool svg,.tool-mono{width:26px;height:26px}
+  .tool-mono{font-size:.75rem}
+  .tool-name{position:absolute;left:50%;bottom:calc(100% + 10px);translate:-50% 4px;white-space:nowrap;padding:6px 10px;border-radius:8px;background:var(--ink);color:var(--paper);
+    font-size:.8rem;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,translate .2s;z-index:2}
+  .tool-name::after{content:"";position:absolute;left:50%;top:100%;translate:-50% 0;border:5px solid transparent;border-top-color:var(--ink)}
+  .tool:hover .tool-name,.tool:focus-visible .tool-name{opacity:1;translate:-50% 0}
+}
 @media (max-width:860px){.tool-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:520px){.tool-grid{grid-template-columns:1fr}}
 
@@ -351,7 +419,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px soli
 .site-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
 
 /* ---------- Case study view (works with or without JS via :target) ---------- */
-.case{display:none;padding-block:clamp(40px,6vw,80px) clamp(80px,10vw,128px)}
+.case{display:none;padding-block:calc(var(--header) + clamp(40px,6vw,80px)) clamp(80px,10vw,128px)}
 .case:target,.case.active{display:block}
 body:has(.case:target) .home,body.viewing-case .home{display:none}
 .back{display:inline-block;font-weight:600;color:var(--accent);text-underline-offset:4px;margin-bottom:clamp(36px,5vw,64px)}

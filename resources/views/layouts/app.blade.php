@@ -64,14 +64,19 @@ document.documentElement.classList.add('preload','loading');
 
 <header class="site-header">
   <nav class="nav wrap" aria-label="Main">
-    <a class="brand" href="#top">{{ $name }}</a>
-    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
-    <div class="nav-links" id="nav-links">
-      <a href="#work">Work</a>
-      <a href="#services">Services</a>
-      <a href="#experience">Experience</a>
-      <a href="#about">About</a>
-      <a class="btn btn-primary" href="#contact">Let’s work together</a>
+    <div class="nav-pill">
+      <a class="brand" href="#top">{{ $name }}</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links"><span class="menu-icon" aria-hidden="true"><i></i><i></i></span><span>Menu</span></button>
+      <div class="nav-links" id="nav-links">
+        <div class="nav-menu">
+          <span class="nav-ind" aria-hidden="true"></span>
+          <a href="#work">Work</a>
+          <a href="#services">Services</a>
+          <a href="#experience">Experience</a>
+          <a href="#about">About</a>
+        </div>
+        <a class="btn btn-primary nav-cta" href="#contact">Let’s work together<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
     </div>
   </nav>
 </header>

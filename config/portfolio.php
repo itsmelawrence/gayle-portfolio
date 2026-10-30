@@ -341,13 +341,38 @@ return [
         'Always learning' => 'Keeps picking up new tools and sharpening the craft.',
     ],
 
+    // Tools section. `icon` is a file in resources/icons (official marks from Simple Icons, Hugeicons, and
+    // Material Design Icons; GoHighLevel, Kixie, and Mango redrawn from their app icons). Without an icon, `monogram` shows a letter tile. Icons use the site colour until hovered, then switch to their real `brand` colour;
+    // multi-colour marks set each part's hover colour with an inline --on custom property.
     'tools' => [
-        'Advertising' => ['Meta Business Suite'],
-        'CRM & automation' => ['GoHighLevel'],
-        'Social media' => ['Social media platforms'],
-        'Creative production' => ['CapCut', 'Canva'],
-        'Communication & calling' => ['Slack', 'Kixie', 'Mango'],
-        'AI & productivity' => ['ChatGPT', 'Gemini', 'Claude', 'Microsoft Office'],
+        'Advertising' => [
+            ['name' => 'Meta Business Suite', 'icon' => 'meta', 'brand' => '#0467DF'],
+        ],
+        'CRM & automation' => [
+            ['name' => 'GoHighLevel', 'icon' => 'gohighlevel', 'brand' => '#08223D'],
+        ],
+        'Social media' => [
+            ['name' => 'Facebook', 'icon' => 'facebook', 'brand' => '#0866FF'],
+            ['name' => 'Instagram', 'icon' => 'instagram', 'brand' => '#FF0069'],
+            ['name' => 'TikTok', 'icon' => 'tiktok', 'brand' => '#000000'],
+            ['name' => 'YouTube', 'icon' => 'youtube', 'brand' => '#FF0000'],
+            ['name' => 'X', 'icon' => 'x', 'brand' => '#000000'],
+        ],
+        'Creative production' => [
+            ['name' => 'CapCut', 'icon' => 'capcut', 'brand' => '#000000'],
+            ['name' => 'Canva', 'icon' => 'canva', 'brand' => '#00C4CC'],
+        ],
+        'Communication & calling' => [
+            ['name' => 'Slack', 'icon' => 'slack', 'brand' => '#4A154B'],
+            ['name' => 'Kixie', 'icon' => 'kixie', 'brand' => '#EE2524'],
+            ['name' => 'Mango', 'icon' => 'mango', 'brand' => '#424497'],
+        ],
+        'AI & productivity' => [
+            ['name' => 'ChatGPT', 'icon' => 'chatgpt', 'brand' => '#412991'],
+            ['name' => 'Gemini', 'icon' => 'gemini', 'brand' => '#8E75B2'],
+            ['name' => 'Claude', 'icon' => 'claude', 'brand' => '#D97757'],
+            ['name' => 'Microsoft Office', 'icon' => 'microsoft-office', 'brand' => '#D83B01'],
+        ],
     ],
 
 ];

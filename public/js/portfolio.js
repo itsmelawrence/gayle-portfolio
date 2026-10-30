@@ -14,10 +14,41 @@
     }).join(' ');
   }
 
-  // Header border once scrolled
-  var header=document.querySelector('.site-header');
-  var onScroll=function(){header.classList.toggle('scrolled',window.scrollY>8)};
+  // Header: shadow once scrolled; tucks away while scrolling down, returns on scroll up (never while the menu is open or focused)
+  var header=document.querySelector('.site-header'), lastY=window.scrollY;
+  var onScroll=function(){
+    var y=window.scrollY, open=document.getElementById('nav-links').classList.contains('open');
+    header.classList.toggle('scrolled',y>8);
+    if(Math.abs(y-lastY)>6){
+      header.classList.toggle('tucked',y>lastY&&y>window.innerHeight*.6&&!open&&!header.contains(document.activeElement));
+      lastY=y;
+    }
+  };
   window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  header.addEventListener('focusin',function(){header.classList.remove('tucked')});
+
+  // Nav indicator: slides to the hovered link, otherwise rests on the link for the section in view
+  var menu=document.querySelector('.nav-menu'), ind=menu.querySelector('.nav-ind');
+  var navLinks=[].slice.call(menu.querySelectorAll('a')), current=null;
+  function moveInd(a){
+    if(!a){ind.style.opacity=0; return}
+    ind.style.width=a.offsetWidth+'px'; ind.style.translate=a.offsetLeft+'px 0'; ind.style.opacity=1;
+  }
+  navLinks.forEach(function(a){a.addEventListener('pointerenter',function(){moveInd(a)})});
+  menu.addEventListener('pointerleave',function(){moveInd(current)});
+  if('IntersectionObserver' in window){
+    var spy=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        var a=menu.querySelector('a[href="#'+en.target.id+'"]');
+        if(en.isIntersecting){
+          navLinks.forEach(function(l){l.removeAttribute('aria-current')});
+          a.setAttribute('aria-current','true'); current=a;
+        }else if(a===current){a.removeAttribute('aria-current'); current=null}
+      });
+      if(!menu.matches(':hover')) moveInd(current);
+    },{rootMargin:'-45% 0px -50% 0px'});
+    navLinks.forEach(function(a){var t=document.getElementById(a.getAttribute('href').slice(1)); if(t) spy.observe(t)});
+  }
 
   // Mobile menu
   var menuBtn=document.querySelector('.menu-btn'), links=document.getElementById('nav-links');
@@ -118,6 +149,29 @@
       .catch(function(){fstatus.textContent='Your inquiry could not be sent. Check your connection and try again, or email me directly.'})
       .finally(function(){btn.disabled=false});
   });
+})();
+
+// Pipeline stages on small screens: as the next card slides over a stuck card, the covered one shrinks and dims (--cover 0..1)
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.stage')), small=window.matchMedia('(max-width:900px)');
+  if(cards.length<2||window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ticking=false;
+  function update(){
+    ticking=false;
+    cards.forEach(function(card,i){
+      var next=cards[i+1], cover=0;
+      if(small.matches&&next){
+        var r=card.getBoundingClientRect(), n=next.getBoundingClientRect();
+        cover=Math.max(0,Math.min(1,(r.bottom-n.top)/r.height));
+      }
+      card.style.setProperty('--cover',cover.toFixed(3));
+    });
+  }
+  function onScroll(){if(!ticking){ticking=true; requestAnimationFrame(update)}}
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  if(small.addEventListener) small.addEventListener('change',update);
+  update();
 })();
 
 // Hero portrait: eases toward the cursor (--mx/--my, -1..1) so the photo tilts and the halo drifts behind it

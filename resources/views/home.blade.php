@@ -10,7 +10,9 @@
     <h1 id="hero-title">Ads, creative, and the systems behind them.</h1>
     <div class="hero-row">
       <div class="fade">
-        <p class="hero-intro">I’m {{ $name }}, a digital marketing and operations specialist. I help businesses run better marketing: research-led ad creative, well-structured Meta campaigns, and the funnels, CRM, and automations that turn leads into conversations.</p>
+        {{-- Each phrase jumps to the service that covers it (ids are built from service titles below) --}}
+        @php($toService = fn ($title) => '#service-'.Str::slug($title))
+        <p class="hero-intro"><strong class="intro-lead">I’m {{ $name }}, a digital marketing and operations specialist. I help businesses run better marketing:</strong> <a class="intro-link" href="{{ $toService('Creative research & production') }}">research-led ad creative</a>, <a class="intro-link" href="{{ $toService('Paid advertising & lead generation') }}">well-structured Meta campaigns</a>, and <a class="intro-link" href="{{ $toService('Funnel & CRM development') }}">the funnels, CRM, and automations</a> that turn leads into conversations.</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="#work">View my work</a>
           <a class="btn btn-ghost" href="#contact">Let’s work together</a>
@@ -57,7 +59,7 @@
         <p class="lede">Each service can stand alone, but they are designed to plug into one another. Pick one, or hand over a whole stage of the pipeline.</p>
         <a class="btn btn-ghost" href="#contact">Discuss a project</a>
       </div>
-      <ul>@foreach ($services as $service)<li class="svc">
+      <ul>@foreach ($services as $service)<li class="svc" id="service-{{ Str::slug($service['title']) }}">
   <h3>{{ $service['title'] }}</h3>
   <div>
     <p>{{ $service['summary'] }}</p>
@@ -77,7 +79,7 @@
       </div>
       <div class="sys-grid">
         <nav class="rail" aria-label="Pipeline stages"><ol>@foreach ($stages as $stage)<li><a href="#stage-{{ $loop->iteration }}" data-step="{{ $loop->index }}"><span class="rn">{{ $loop->iteration }}</span>{{ $stage['name'] }}</a></li>@endforeach</ol></nav>
-        <div class="stages">@foreach ($stages as $stage)<div class="stage" id="stage-{{ $loop->iteration }}" data-step="{{ $loop->index }}">
+        <div class="stages">@foreach ($stages as $stage)<div class="stage" id="stage-{{ $loop->iteration }}" data-step="{{ $loop->index }}" style="--i:{{ $loop->index }}">
   <p class="stage-no">{{ $loop->iteration }} <span>of {{ $loop->count }}</span></p>
   <h3><span class="stage-name">{{ $stage['name'] }}.</span> {{ $stage['headline'] }}</h3>
   <p>{{ $stage['body'] }}</p>
@@ -134,10 +136,10 @@
   <section class="tools sec" id="tools" aria-labelledby="tools-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 id="tools-title">Tools I work in</h2>
-        <p class="lede">The software I use day to day in client work.</p>
+        <h2 id="tools-title">Already fluent in your marketing stack</h2>
+        <p class="lede">No ramp-up time on day one. I work daily in Meta Business Suite, GoHighLevel, Canva, and CapCut, keep teams in sync on Slack, and use AI tools like ChatGPT, Gemini, and Claude to research, write, and automate faster.</p>
       </div>
-      <div class="tool-grid">@foreach ($tools as $group => $items)<div class="tool-group"><h3>{{ $group }}</h3><ul>@foreach ($items as $item)<li>{{ $item }}</li>@endforeach</ul></div>@endforeach</div>
+      <div class="tool-grid">@foreach ($tools as $group => $items)<div class="tool-group"><h3>{{ $group }}</h3><ul>@foreach ($items as $tool)<li class="tool" tabindex="0" style="--brand:{{ $tool['brand'] }}">@isset($tool['icon']){!! file_get_contents(resource_path('icons/'.$tool['icon'].'.svg')) !!}@else<span class="tool-mono" aria-hidden="true">{{ $tool['monogram'] }}</span>@endisset<span class="tool-name">{{ $tool['name'] }}</span></li>@endforeach</ul></div>@endforeach</div>
     </div>
   </section>
 

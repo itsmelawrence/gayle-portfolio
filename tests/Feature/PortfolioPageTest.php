@@ -29,6 +29,23 @@ class PortfolioPageTest extends TestCase
         }
     }
 
+    public function test_every_in_page_link_has_a_target(): void
+    {
+        $html = $this->get('/')->getContent();
+        preg_match_all('/id="([^"]+)"/', $html, $ids);
+        preg_match_all('/href="#([^"]+)"/', $html, $anchors);
+
+        $this->assertSame([], array_values(array_diff(array_unique($anchors[1]), $ids[1])));
+    }
+
+    public function test_intro_phrases_link_to_their_services(): void
+    {
+        $this->get('/')
+            ->assertSee('href="#service-creative-research-production">research-led ad creative</a>', false)
+            ->assertSee('href="#service-paid-advertising-lead-generation">well-structured Meta campaigns</a>', false)
+            ->assertSee('href="#service-funnel-crm-development">the funnels, CRM, and automations</a>', false);
+    }
+
     public function test_unset_contact_details_show_as_placeholders(): void
     {
         config(['portfolio.contact.email' => null]);
