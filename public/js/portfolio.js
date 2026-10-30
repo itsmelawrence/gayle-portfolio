@@ -119,3 +119,143 @@
       .finally(function(){btn.disabled=false});
   });
 })();
+
+// Hero lava lamp: metaballs in the palette tokens (--lava-*), drifting up and down.
+// The cursor drags a blob of its own, pulls nearby blobs toward it, and stirs them when moved fast; a click pushes them away.
+(function(){
+  var stage=document.querySelector('.hero-stage'), canvas=stage&&stage.querySelector('.lava');
+  if(!canvas||!canvas.getContext) return;
+  var ctx=canvas.getContext('2d'), reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var CELL=4, W=0, H=0, cols=0, rows=0, img=null, colors=[], glow=[0,0,0], alpha=.4;
+  var blobs=[], running=false, visible=true, last=0, t=0;
+  var cursor={x:0,y:0,px:0,py:0,vx:0,vy:0,r:0,on:false};
+
+  function rgb(v){
+    var el=document.createElement('i'); el.style.color=v; document.body.appendChild(el);
+    var m=getComputedStyle(el).color.match(/\d+/g); el.remove(); return m.slice(0,3).map(Number);
+  }
+  function readTheme(){
+    var cs=getComputedStyle(document.documentElement);
+    colors=[1,2,3].map(function(n){return rgb(cs.getPropertyValue('--lava-'+n).trim())});
+    glow=rgb(cs.getPropertyValue('--lava-glow').trim());
+    alpha=parseFloat(cs.getPropertyValue('--lava-alpha'))||.4;
+  }
+
+  function seed(){
+    var n=W<700?6:8, base=Math.sqrt(W*H);
+    blobs=[];
+    for(var i=0;i<n;i++){
+      var bx=W*(i+.5)/n;
+      blobs.push({
+        x:bx, y:H*Math.random(), vx:0, vy:0,
+        r:base*(.06+Math.random()*.06), c:i%3,
+        bx:bx, ax:W*(.04+Math.random()*.08),
+        wx:.05+Math.random()*.08, wy:.035+Math.random()*.05,
+        px:Math.random()*6.28, py:Math.random()*6.28
+      });
+    }
+  }
+
+  function resize(){
+    var w=stage.clientWidth, h=stage.clientHeight; if(!w||!h) return;
+    var first=!W; W=w; H=h;
+    cols=Math.ceil(W/CELL); rows=Math.ceil(H/CELL);
+    canvas.width=cols; canvas.height=rows; img=ctx.createImageData(cols,rows);
+    if(first) seed(); else blobs.forEach(function(b,i){b.bx=W*(i+.5)/blobs.length});
+    draw();
+  }
+
+  function step(dt){
+    t+=dt;
+    // Ease the cursor blob in and out, and track how fast the pointer moves
+    cursor.r+=((cursor.on?Math.sqrt(W*H)*.055:0)-cursor.r)*Math.min(1,dt*4);
+    cursor.vx=(cursor.x-cursor.px)/Math.max(dt,.001); cursor.vy=(cursor.y-cursor.py)/Math.max(dt,.001);
+    cursor.px=cursor.x; cursor.py=cursor.y;
+    var reach=Math.sqrt(W*H)*.35;
+    blobs.forEach(function(b){
+      // Each blob springs toward a slowly rising and sinking home point, like wax in a lamp
+      var hx=b.bx+Math.sin(t*b.wx+b.px)*b.ax;
+      var hy=H*(.5+.62*Math.sin(t*b.wy+b.py));
+      b.vx+=(hx-b.x)*.35*dt; b.vy+=(hy-b.y)*.35*dt;
+      if(cursor.on){
+        var dx=cursor.x-b.x, dy=cursor.y-b.y, d=Math.sqrt(dx*dx+dy*dy)+1;
+        if(d<reach){
+          var f=1-d/reach;
+          b.vx+=dx/d*f*90*dt+cursor.vx*f*.9*dt;
+          b.vy+=dy/d*f*90*dt+cursor.vy*f*.9*dt;
+        }
+      }
+      var damp=Math.pow(.25,dt); b.vx*=damp; b.vy*=damp;
+      b.x+=b.vx*dt; b.y+=b.vy*dt;
+    });
+  }
+
+  function draw(){
+    if(!img) return;
+    var data=img.data, n=blobs.length, all=blobs.slice(), i, k;
+    if(cursor.r>1) all.push({x:cursor.x,y:cursor.y,r:cursor.r,c:1});
+    n=all.length;
+    var bx=new Float32Array(n), by=new Float32Array(n), br=new Float32Array(n);
+    for(k=0;k<n;k++){bx[k]=all[k].x; by[k]=all[k].y; br[k]=all[k].r*all[k].r}
+    var p=0;
+    for(var y=0;y<rows;y++){
+      var py=(y+.5)*CELL;
+      for(var x=0;x<cols;x++){
+        var px=(x+.5)*CELL, f=0, r=0, g=0, b=0;
+        for(k=0;k<n;k++){
+          var dx=px-bx[k], dy=py-by[k], w=br[k]/(dx*dx+dy*dy+1), c=colors[all[k].c];
+          f+=w; r+=w*c[0]; g+=w*c[1]; b+=w*c[2];
+        }
+        if(f<.05){data[p+3]=0; p+=4; continue}
+        r/=f; g/=f; b/=f;
+        // Lighter toward the core, for a soft inner glow
+        var lit=f>1?.22*(1-1/f):0;
+        r+=(glow[0]-r)*lit; g+=(glow[1]-g)*lit; b+=(glow[2]-b)*lit;
+        var edge=Math.min(1,Math.max(0,(f-.9)/.14)); edge=edge*edge*(3-2*edge);
+        data[p]=r; data[p+1]=g; data[p+2]=b;
+        data[p+3]=255*alpha*edge;
+        p+=4;
+      }
+    }
+    ctx.putImageData(img,0,0);
+  }
+
+  function frame(now){
+    if(!running) return;
+    var dt=Math.min(.05,(now-(last||now))/1000); last=now;
+    step(dt); draw();
+    requestAnimationFrame(frame);
+  }
+  function play(){
+    var should=visible&&!document.hidden&&!reduce.matches;
+    if(should&&!running){running=true; last=0; requestAnimationFrame(frame)}
+    if(!should) running=false;
+  }
+
+  function point(e){
+    var rect=stage.getBoundingClientRect();
+    cursor.x=e.clientX-rect.left; cursor.y=e.clientY-rect.top;
+  }
+  stage.addEventListener('pointerenter',function(e){point(e); cursor.px=cursor.x; cursor.py=cursor.y; cursor.on=true});
+  stage.addEventListener('pointermove',function(e){point(e); cursor.on=true},{passive:true});
+  stage.addEventListener('pointerleave',function(){cursor.on=false});
+  stage.addEventListener('pointerdown',function(e){
+    if(reduce.matches) return;
+    point(e);
+    blobs.forEach(function(b){
+      var dx=b.x-cursor.x, dy=b.y-cursor.y, d=Math.sqrt(dx*dx+dy*dy)+1, f=Math.max(0,1-d/(Math.sqrt(W*H)*.5));
+      b.vx+=dx/d*f*520; b.vy+=dy/d*f*520;
+    });
+  });
+
+  readTheme(); resize();
+  canvas.classList.add('on');
+  if('ResizeObserver' in window) new ResizeObserver(resize).observe(stage); else window.addEventListener('resize',resize);
+  if('IntersectionObserver' in window) new IntersectionObserver(function(en){visible=en[0].isIntersecting; play()}).observe(stage);
+  document.addEventListener('visibilitychange',play);
+  if(reduce.addEventListener) reduce.addEventListener('change',function(){play(); draw()});
+  var scheme=window.matchMedia('(prefers-color-scheme: dark)');
+  if(scheme.addEventListener) scheme.addEventListener('change',function(){readTheme(); draw()});
+  new MutationObserver(function(){readTheme(); draw()}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  play();
+})();

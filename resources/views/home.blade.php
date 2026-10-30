@@ -3,6 +3,8 @@
 @section('content')
 <div class="home" id="top">
 
+  <div class="hero-stage">
+  <canvas class="lava" aria-hidden="true"></canvas>
   <section class="hero wrap" aria-labelledby="hero-title">
     <h1 id="hero-title">Ads, creative, and the systems behind them.</h1>
     <div class="hero-row">
@@ -20,6 +22,7 @@
       <ol>@foreach ($stages as $stage)<li><a href="#stage-{{ $loop->iteration }}">{{ $stage['name'] }}</a></li>@endforeach</ol>
     </div>
   </section>
+  </div>
 
   <section class="system sec" id="system" aria-labelledby="system-title">
     <div class="wrap">

@@ -7,6 +7,7 @@
   --sys-bg:#7C0E44; --sys-ink:#F2DACE; --sys-muted:#E3B9BC; --sys-line:rgba(242,218,206,.22);
   --t-plum:#7C0E44; --t-mauve:#AA5E7A; --t-rose:#D49A9A; --t-surface:#F2DACE; --m-ink:#FBF5F1;
   --ph:rgba(212,154,154,.32);
+  --lava-1:#D49A9A; --lava-2:#DDA9B0; --lava-3:#CB8A9E; --lava-glow:#F7EAE3; --lava-alpha:.4;
   --display:"Fraunces", "Iowan Old Style", Georgia, serif;
   --sans:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --wrap:1240px; --gut:clamp(20px,5vw,56px); --header:76px;
@@ -19,6 +20,7 @@
     --accent:#E3AEB0; --btn:#D49A9A; --btn-ink:#2A1520;
     --sys-bg:#5A0A31; --t-surface:#3A2430;
     --ph:rgba(212,154,154,.22);
+    --lava-1:#7C0E44; --lava-2:#AA5E7A; --lava-3:#5A0A31; --lava-glow:#D49A9A; --lava-alpha:.5;
     color-scheme:dark;
   }
 }
@@ -28,6 +30,7 @@
   --accent:#E3AEB0; --btn:#D49A9A; --btn-ink:#2A1520;
   --sys-bg:#5A0A31; --t-surface:#3A2430;
   --ph:rgba(212,154,154,.22);
+  --lava-1:#7C0E44; --lava-2:#AA5E7A; --lava-3:#5A0A31; --lava-glow:#D49A9A; --lava-alpha:.5;
   color-scheme:dark;
 }
 
@@ -81,6 +84,12 @@ section{position:relative}
 }
 
 /* ---------- Hero ---------- */
+/* Lava lamp backdrop: blobs drawn on a low-res canvas, upscaled smoothly, faded in once running */
+.hero-stage{position:relative;isolation:isolate;overflow:hidden}
+.lava{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 6%,#000 78%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 6%,#000 78%,transparent)}
+.lava.on{opacity:1}
+.no-js .hero-stage{background:radial-gradient(40% 50% at 82% 30%,rgba(212,154,154,.38),transparent 70%),radial-gradient(35% 45% at 12% 85%,rgba(170,94,122,.22),transparent 70%)}
 .hero{padding-top:clamp(56px,10vw,128px);padding-bottom:clamp(64px,8vw,104px)}
 .hero h1{font-size:clamp(3rem,9.2vw,8.25rem);font-weight:300;line-height:.98;letter-spacing:-.035em;max-width:14ch}
 .hero-row{display:grid;grid-template-columns:7fr 5fr;gap:clamp(28px,6vw,96px);margin-top:clamp(36px,5vw,64px);align-items:end}
