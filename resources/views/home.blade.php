@@ -207,7 +207,7 @@
           <button class="btn btn-primary send-btn" type="submit"><span class="send-label">Send inquiry</span><span class="send-spin" aria-hidden="true"></span></button>
           <p class="status" id="form-status" role="status"></p>
         </div>
-        <p class="form-note">Your details are only used to reply to your inquiry.</p>
+        <p class="form-note">Your details are only used to reply to your inquiry. See the <a href="{{ route('privacy') }}">privacy policy</a>.</p>
       </form>
       {{-- Replaces the form after a successful send and stays until the page is reloaded. portfolio.js fills in the name and email. --}}
       <div class="sent" id="inquiry-sent" tabindex="-1" @unless ($sent) hidden @endunless>

@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>{{ $name }}’s Portfolio | Digital Marketing &amp; Operations Specialist</title>
-<meta name="description" content="{{ $name }} is a digital marketing and operations specialist: Meta ads, creative production, social media, funnels, GoHighLevel CRM, and marketing automation.">
+<title>@yield('title', $name.'’s Portfolio | Digital Marketing & Operations Specialist')</title>
+<meta name="description" content="@yield('description', $name.' is a digital marketing and operations specialist: Meta ads, creative production, social media, funnels, GoHighLevel CRM, and marketing automation.')">
 <meta property="og:title" content="{{ $name }} | Digital Marketing &amp; Operations Specialist">
 <meta property="og:description" content="Ads, creative, and the systems behind them.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/') }}">
+<meta property="og:url" content="{{ url()->current() }}">
 <meta property="og:site_name" content="{{ $name }}">
 {{-- Link-preview card (1200x630; key content sits in the centre square for apps that crop) --}}
 <meta property="og:image" content="{{ asset('images/og-image.jpg') }}">
@@ -75,22 +75,24 @@ document.documentElement.classList.add('preload','loading');
   <div class="loader-lamp" aria-hidden="true"><i></i><i></i><i></i></div>
   <p class="loader-name" aria-hidden="true">{{ $name }}</p>
 </div>
+{{-- Section links work from every page: plain #hash on the home page, home URL + #hash elsewhere --}}
+@php($home = request()->routeIs('home') ? '' : route('home'))
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site-header">
   <nav class="nav wrap" aria-label="Main">
     <div class="nav-pill">
-      <a class="brand" href="#top">{{ $name }}</a>
+      <a class="brand" href="{{ $home }}#top">{{ $name }}</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links"><span class="menu-icon" aria-hidden="true"><i></i><i></i></span><span>Menu</span></button>
       <div class="nav-links" id="nav-links">
         <div class="nav-menu">
           <span class="nav-ind" aria-hidden="true"></span>
-          <a href="#work">Work</a>
-          <a href="#services">Services</a>
-          <a href="#experience">Experience</a>
-          <a href="#about">About</a>
+          <a href="{{ $home }}#work">Work</a>
+          <a href="{{ $home }}#services">Services</a>
+          <a href="{{ $home }}#experience">Experience</a>
+          <a href="{{ $home }}#about">About</a>
         </div>
-        <a class="btn btn-primary nav-cta" href="#contact">Let’s work together<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="btn btn-primary nav-cta" href="{{ $home }}#contact">Let’s work together<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
     </div>
   </nav>
@@ -103,7 +105,7 @@ document.documentElement.classList.add('preload','loading');
 <footer class="site-footer">
   <div class="wrap">
     <p>&copy; {{ date('Y') }} {{ $name }}. Digital marketing &amp; operations.</p>
-    <a href="#top">Back to top</a>
+    <nav class="foot-links" aria-label="Footer"><a href="{{ route('privacy') }}">Privacy policy</a><a href="#top">Back to top</a></nav>
   </div>
 </footer>
 

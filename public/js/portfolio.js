@@ -81,6 +81,7 @@
 
   // Project filter
   var filterBar=document.querySelector('.filters'), grid=document.getElementById('grid');
+  if(filterBar&&grid){
   var cards=[].slice.call(grid.querySelectorAll('.card')), status=document.getElementById('filter-status');
   filterBar.hidden=false;
   filterBar.addEventListener('click',function(e){
@@ -91,6 +92,7 @@
     grid.classList.toggle('filtering',f!=='all');
     status.textContent='Showing '+shown+' project'+(shown===1?'':'s');
   });
+  }
 
   // Case study routing via #case-… (CSS :target does the showing; this handles focus, title, scroll)
   var wasCase=false;
@@ -112,8 +114,10 @@
   }
   window.addEventListener('hashchange',route); route();
 
-  // Inquiry form: inline validation, then submit to the Laravel inquiries route
+  // Inquiry form: inline validation, then submit to the Laravel inquiries route (home page only)
+  (function(){
   var form=document.getElementById('inquiry'), fstatus=document.getElementById('form-status');
+  if(!form) return;
   var sent=document.getElementById('inquiry-sent'), wrap=form.parentNode;
 
   // Fields rise in one after another the first time the form scrolls into view
@@ -198,6 +202,7 @@
       .catch(function(){fstatus.textContent='Your inquiry could not be sent. Check your connection and try again, or email me directly.'})
       .finally(function(){btn.disabled=false; btn.classList.remove('loading'); if(window.turnstile) window.turnstile.reset()});
   });
+  })();
 })();
 
 // Pipeline stages on small screens: as the next card slides over a stuck card, the covered one shrinks and dims (--cover 0..1)

@@ -70,6 +70,19 @@ class PortfolioPageTest extends TestCase
             ->assertSee('challenges.cloudflare.com/turnstile/v0/api.js', false);
     }
 
+    public function test_privacy_policy_page_renders_and_is_linked(): void
+    {
+        config(['portfolio.contact.email' => 'gayle@example.com']);
+
+        $page = $this->get('/privacy')->assertOk()
+            ->assertSee('<title>Privacy Policy | Gayle</title>', false)
+            ->assertSee('<a href="mailto:gayle@example.com">gayle@example.com</a>', false)
+            ->assertSee('href="'.route('home').'#work"', false);
+        $this->assertSame(6, substr_count($page->getContent(), '<h2>'));
+
+        $this->get('/')->assertSee('href="'.route('privacy').'"', false);
+    }
+
     public function test_unset_contact_details_show_as_placeholders(): void
     {
         config(['portfolio.contact.email' => null]);
