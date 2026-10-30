@@ -163,16 +163,21 @@
     stage.addEventListener('pointerleave',function(){s.pointer.on=false});
     stage.addEventListener('pointerdown',function(e){if(!reduce.matches&&fx.press){point(e); fx.press(s)}});
 
-    fx.theme(s, getComputedStyle(document.documentElement)); resize();
-    canvas.classList.add('on');
-    if('ResizeObserver' in window) new ResizeObserver(resize).observe(stage); else window.addEventListener('resize',resize);
-    if('IntersectionObserver' in window) new IntersectionObserver(function(en){visible=en[0].isIntersecting; play()}).observe(stage);
-    document.addEventListener('visibilitychange',play);
-    if(reduce.addEventListener) reduce.addEventListener('change',function(){play(); fx.draw(s)});
-    var scheme=window.matchMedia('(prefers-color-scheme: dark)');
-    if(scheme.addEventListener) scheme.addEventListener('change',theme);
-    new MutationObserver(theme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
-    play();
+    // Stylesheets load without blocking paint, so wait for them before reading tokens and measuring layout
+    function start(){
+      fx.theme(s, getComputedStyle(document.documentElement)); resize();
+      canvas.classList.add('on');
+      if('ResizeObserver' in window) new ResizeObserver(resize).observe(stage); else window.addEventListener('resize',resize);
+      if('IntersectionObserver' in window) new IntersectionObserver(function(en){visible=en[0].isIntersecting; play()}).observe(stage);
+      document.addEventListener('visibilitychange',play);
+      if(reduce.addEventListener) reduce.addEventListener('change',function(){play(); fx.draw(s)});
+      var scheme=window.matchMedia('(prefers-color-scheme: dark)');
+      if(scheme.addEventListener) scheme.addEventListener('change',theme);
+      new MutationObserver(theme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+      play();
+    }
+    if(document.readyState==='complete') start(); else window.addEventListener('load',start);
+    return {relayout:function(){if(s.W&&fx.mask){fx.mask(s); fx.draw(s)}}};
   }
 
   // Hero lava lamp: metaballs in the --lava-* tokens, drawn on a canvas at a quarter of screen resolution and scaled up smoothly.
@@ -261,10 +266,19 @@
   });
 
   // Selected work: a dot field rolling in a slow wave, in the --dots-* tokens. Dots swell, brighten, and part
-  // around the cursor like a lens; a click sends a ripple ring across the grid.
-  var GAP=26;
-  backdrop(document.querySelector('.work'), Math.min(window.devicePixelRatio||1,2), {
+  // around the cursor like a lens; a click sends a ripple ring across the grid. Dots under text and cards are left out
+  // so the field flows around the content instead of running through it.
+  var GAP=26, work=document.querySelector('.work'), CLEAR='.sec-head>*,.filters button,.card-meta,.card h3,.card .mock';
+  var dots=backdrop(work, Math.min(window.devicePixelRatio||1,2), {
     dots:[], ripples:[], lens:0, base:[0,0,0], hot:[0,0,0], alpha:.5,
+    mask:function(s){
+      var box=s.stage.getBoundingClientRect(), pad=8, rects=[].map.call(s.stage.querySelectorAll(CLEAR),function(el){
+        var r=el.getBoundingClientRect(); return r.width?[r.left-box.left-pad,r.top-box.top-pad,r.right-box.left+pad,r.bottom-box.top+pad]:null;
+      }).filter(Boolean);
+      this.dots.forEach(function(d){
+        d.off=rects.some(function(r){return d.hx>r[0]&&d.hx<r[2]&&d.hy>r[1]&&d.hy<r[3]});
+      });
+    },
     theme:function(s, cs){
       this.base=rgb(cs.getPropertyValue('--dots-base').trim());
       this.hot=rgb(cs.getPropertyValue('--dots-hot').trim());
@@ -273,10 +287,11 @@
     resize:function(s){
       var dots=this.dots=[], cols=Math.ceil(s.W/GAP)+1, rows=Math.ceil(s.H/GAP)+1;
       var ox=(s.W-(cols-1)*GAP)/2, oy=(s.H-(rows-1)*GAP)/2;
-      for(var y=0;y<rows;y++) for(var x=0;x<cols;x++) dots.push({hx:ox+x*GAP, hy:oy+y*GAP, x:ox+x*GAP, y:oy+y*GAP, heat:0});
+      for(var y=0;y<rows;y++) for(var x=0;x<cols;x++) dots.push({hx:ox+x*GAP, hy:oy+y*GAP, x:ox+x*GAP, y:oy+y*GAP, heat:0, off:false});
+      this.mask(s);
     },
     step:function(s, dt){
-      var p=s.pointer, R=150, ease=Math.min(1,dt*7), ripples=this.ripples;
+      var p=s.pointer, R=190, ease=Math.min(1,dt*7), ripples=this.ripples;
       this.lens+=((p.on?1:0)-this.lens)*Math.min(1,dt*5);
       ripples.forEach(function(r){r.r+=dt*520; r.life-=dt*.9});
       this.ripples=ripples=ripples.filter(function(r){return r.life>0});
@@ -285,11 +300,11 @@
         var tx=d.hx, ty=d.hy, heat=0;
         if(lens>.01){
           var dx=d.hx-p.x, dy=d.hy-p.y, dist=Math.sqrt(dx*dx+dy*dy)+.01;
-          if(dist<R){var f=1-dist/R; f=f*f*(3-2*f)*lens; tx+=dx/dist*f*18; ty+=dy/dist*f*18; heat=f}
+          if(dist<R){var f=1-dist/R; f=f*f*(3-2*f)*lens; tx+=dx/dist*f*26; ty+=dy/dist*f*26; heat=f}
         }
         for(var i=0;i<ripples.length;i++){
-          var rp=ripples[i], ex=d.hx-rp.x, ey=d.hy-rp.y, rd=Math.sqrt(ex*ex+ey*ey)+.01, band=1-Math.abs(rd-rp.r)/60;
-          if(band>0){band*=rp.life; tx+=ex/rd*band*10; ty+=ey/rd*band*10; heat=Math.max(heat,band)}
+          var rp=ripples[i], ex=d.hx-rp.x, ey=d.hy-rp.y, rd=Math.sqrt(ex*ex+ey*ey)+.01, band=1-Math.abs(rd-rp.r)/80;
+          if(band>0){band*=rp.life; tx+=ex/rd*band*16; ty+=ey/rd*band*16; heat=Math.max(heat,band)}
         }
         d.x+=(tx-d.x)*ease; d.y+=(ty-d.y)*ease; d.heat+=(heat-d.heat)*ease;
       });
@@ -299,14 +314,21 @@
       var ctx=s.ctx, t=s.t, base=this.base, hot=this.hot, alpha=this.alpha, TAU=Math.PI*2, cool='rgb('+base.join(',')+')';
       ctx.setTransform(s.scale,0,0,s.scale,0,0); ctx.clearRect(0,0,s.W,s.H);
       this.dots.forEach(function(d){
+        if(d.off) return;
         // Two slow crossing waves give the field its rolling swell
         var wave=.5+.25*Math.sin(d.hx*.011+t*.7)+.25*Math.sin(d.hy*.014-t*.5+d.hx*.004);
-        var h=d.heat, r=1+wave*1.1+h*2.6;
-        ctx.globalAlpha=alpha*(.35+wave*.4+h*.6);
+        var h=d.heat, r=1.3+wave*1.7+h*3.4;
+        ctx.globalAlpha=Math.min(1,alpha*(.4+wave*.6+h*.7));
         ctx.fillStyle=h<.01?cool:'rgb('+Math.round(base[0]+(hot[0]-base[0])*h)+','+Math.round(base[1]+(hot[1]-base[1])*h)+','+Math.round(base[2]+(hot[2]-base[2])*h)+')';
         ctx.beginPath(); ctx.arc(d.x,d.y,r,0,TAU); ctx.fill();
       });
       ctx.globalAlpha=1;
     }
   });
+  // Filtering moves cards around, and web fonts can reflow the text after first layout
+  if(dots){
+    var grid=document.getElementById('grid');
+    if(grid) new MutationObserver(function(){requestAnimationFrame(dots.relayout)}).observe(grid,{subtree:true,attributes:true,attributeFilter:['hidden','class']});
+    if(document.fonts) document.fonts.ready.then(dots.relayout);
+  }
 })();

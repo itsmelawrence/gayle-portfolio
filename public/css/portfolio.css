@@ -8,7 +8,7 @@
   --t-plum:#7C0E44; --t-mauve:#AA5E7A; --t-rose:#D49A9A; --t-surface:#F2DACE; --m-ink:#FBF5F1;
   --ph:rgba(212,154,154,.32);
   --lava-1:#D49A9A; --lava-2:#DDA9B0; --lava-3:#CB8A9E; --lava-glow:#F7EAE3; --lava-alpha:.4;
-  --dots-base:#D49A9A; --dots-hot:#7C0E44; --dots-alpha:.6;
+  --dots-base:#AA5E7A; --dots-hot:#7C0E44; --dots-alpha:.7;
   --display:"Fraunces", "Iowan Old Style", Georgia, serif;
   --sans:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --wrap:1240px; --gut:clamp(20px,5vw,56px); --header:76px;
@@ -22,7 +22,7 @@
     --sys-bg:#5A0A31; --t-surface:#3A2430;
     --ph:rgba(212,154,154,.22);
     --lava-1:#7C0E44; --lava-2:#AA5E7A; --lava-3:#5A0A31; --lava-glow:#D49A9A; --lava-alpha:.5;
-    --dots-base:#AA5E7A; --dots-hot:#E3AEB0; --dots-alpha:.55;
+    --dots-base:#AA5E7A; --dots-hot:#F2DACE; --dots-alpha:.85;
     color-scheme:dark;
   }
 }
@@ -33,7 +33,7 @@
   --sys-bg:#5A0A31; --t-surface:#3A2430;
   --ph:rgba(212,154,154,.22);
   --lava-1:#7C0E44; --lava-2:#AA5E7A; --lava-3:#5A0A31; --lava-glow:#D49A9A; --lava-alpha:.5;
-  --dots-base:#AA5E7A; --dots-hot:#E3AEB0; --dots-alpha:.55;
+  --dots-base:#AA5E7A; --dots-hot:#F2DACE; --dots-alpha:.85;
   color-scheme:dark;
 }
 
@@ -172,7 +172,7 @@ section{position:relative}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
 @media (max-width:760px){.filters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}}
 .no-js .filters,.filters[hidden]{display:none}
-.filters button{flex:none;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:9px 18px;font:500 .9rem var(--sans);cursor:pointer}
+.filters button{flex:none;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;padding:9px 18px;font:500 .9rem var(--sans);cursor:pointer}
 .filters button:hover{border-color:var(--accent)}
 .filters button[aria-pressed="true"]{background:var(--btn);border-color:var(--btn);color:var(--btn-ink)}
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(20px,3vw,36px) clamp(16px,2.4vw,28px)}
