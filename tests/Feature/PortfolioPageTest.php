@@ -46,6 +46,19 @@ class PortfolioPageTest extends TestCase
             ->assertSee('href="#service-funnel-crm-development">the funnels, CRM, and automations</a>', false);
     }
 
+    public function test_link_preview_image_and_icons_exist(): void
+    {
+        $html = $this->get('/')->assertOk()->getContent();
+
+        foreach (['og:image', 'twitter:image'] as $tag) {
+            $this->assertMatchesRegularExpression('/(property|name)="'.$tag.'" content="https?:\/\/[^"]+og-image\.jpg"/', $html);
+        }
+        foreach (['images/og-image.jpg', 'favicon.ico', 'icon-512.png', 'apple-touch-icon.png'] as $file) {
+            $this->assertFileExists(public_path($file));
+            $this->assertGreaterThan(0, filesize(public_path($file)));
+        }
+    }
+
     public function test_unset_contact_details_show_as_placeholders(): void
     {
         config(['portfolio.contact.email' => null]);
