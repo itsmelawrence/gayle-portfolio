@@ -76,7 +76,7 @@ class PortfolioPageTest extends TestCase
         $this->get('/')
             ->assertSee('href="https://cal.com/someone/30min" data-book', false)
             ->assertSee('class="book-call"', false)
-            ->assertSee('class="book-link"', false);
+            ->assertSee('class="book-bubble"', false);
 
         config(['portfolio.cal_link' => null]);
         $this->get('/')->assertDontSee('data-book', false)->assertDontSee('cal.com', false);

@@ -14,6 +14,7 @@
   --highlight:rgba(212,154,154,.38);
   --intro-link:rgba(42,21,32,.72);
   --bubble-bg:#FFFFFF;
+  --book-1:#7C0E44; --book-2:#B8467A; --book-ink:#FFF6F1; --book-tile:rgba(255,246,241,.16); --book-glow:rgba(124,14,68,.45);
   --display:"Fraunces", "Iowan Old Style", Georgia, serif;
   --sans:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --wrap:1240px; --gut:clamp(20px,5vw,56px); --header:76px;
@@ -33,6 +34,7 @@
     --highlight:rgba(212,154,154,.24);
     --intro-link:#fcfcfc96;
     --bubble-bg:#3A2430;
+    --book-1:#F6CFCB; --book-2:#D49A9A; --book-ink:#2A1520; --book-tile:rgba(42,21,32,.1); --book-glow:rgba(212,154,154,.5);
     color-scheme:dark;
   }
 }
@@ -49,6 +51,7 @@
   --highlight:rgba(212,154,154,.24);
   --intro-link:#fcfcfc96;
   --bubble-bg:#3A2430;
+  --book-1:#F6CFCB; --book-2:#D49A9A; --book-ink:#2A1520; --book-tile:rgba(42,21,32,.1); --book-glow:rgba(212,154,154,.5);
   color-scheme:dark;
 }
 
@@ -211,6 +214,36 @@ section{position:relative}
 @keyframes typing-dot{0%,60%,100%{translate:0 0;opacity:.45}30%{translate:0 -4px;opacity:1}}
 @keyframes online-pulse{0%{box-shadow:0 0 0 0 rgba(59,178,115,.5)}70%,100%{box-shadow:0 0 0 7px rgba(59,178,115,0)}}
 @media (max-width:999px){.hero-portrait:has(.chat-bubble){margin-top:112px}.chat-bubble{right:0;font-size:.88rem;padding:10px 14px}}
+/* Booking bubble beside her shoulder (tail points at her): a filled gradient pill that pops in after the chat bubble,
+   then floats gently with a soft glow pulse. Drifts with the portrait's --mx/--my like the chat bubble. */
+.book-bubble{position:absolute;z-index:3;top:39%;right:calc(100% - 15%);display:flex;align-items:center;gap:12px;padding:9px 16px 9px 9px;border-radius:22px 22px 6px 22px;
+  background:linear-gradient(135deg,var(--book-1),var(--book-2));color:var(--book-ink);text-decoration:none;line-height:1.2;
+  box-shadow:0 18px 36px -16px var(--book-glow),inset 0 1px 0 rgba(255,255,255,.22);transform-origin:100% 100%;
+  translate:calc(var(--mx)*12px) calc(var(--my)*8px);transition:rotate .35s cubic-bezier(.3,1.6,.5,1),scale .35s cubic-bezier(.3,1.6,.5,1),box-shadow .3s}
+.book-bubble::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:0 0 0 0 var(--book-glow)}
+.book-bubble::after{content:"";position:absolute;right:-9px;bottom:0;width:16px;height:13px;background:var(--book-2);clip-path:polygon(0 0,100% 100%,0 100%)}
+.book-bubble:hover,.book-bubble:focus-visible{rotate:3deg;scale:1.05;box-shadow:0 24px 44px -16px var(--book-glow),inset 0 1px 0 rgba(255,255,255,.22)}
+.book-bubble:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.book-ico{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:15px;background:var(--book-tile)}
+.book-ico svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.book-txt{display:grid;gap:3px}
+.book-txt b{font-size:.98rem;font-weight:700;letter-spacing:-.005em;white-space:nowrap}
+.book-txt small{font-size:.8rem;font-weight:500;opacity:.82;white-space:nowrap}
+.book-arrow{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:translate .25s}
+.book-bubble:hover .book-arrow{translate:3px 0}
+.js .book-bubble:not(.ready){opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:no-preference){
+  .book-bubble.pop{animation:bubble-pop .75s cubic-bezier(.3,.7,.4,1) backwards,book-float 4.5s ease-in-out .75s infinite}
+  .book-bubble.ready:not(.pop){animation:book-float 4.5s ease-in-out infinite}
+  .book-bubble.ready::before{animation:book-glow 2.8s ease-out 1s infinite}
+  .book-bubble.pop .book-tick{stroke-dasharray:10;animation:book-tick .5s .55s cubic-bezier(.65,0,.35,1) backwards}
+}
+@keyframes book-float{50%{transform:translateY(-5px)}}
+@keyframes book-glow{0%{box-shadow:0 0 0 0 var(--book-glow)}70%,100%{box-shadow:0 0 0 12px transparent}}
+@keyframes book-tick{from{stroke-dashoffset:10}}
+/* Narrow desktops: less room beside the text column, so it tucks in over the sleeve, above the Currently card */
+@media (min-width:1000px) and (max-width:1199px){.book-bubble{top:31%;right:calc(100% - 32%)}}
+@media (max-width:999px){.book-bubble{right:auto;left:-7%;top:44%;gap:10px;padding:7px 13px 7px 7px}.book-ico{width:36px;height:36px;border-radius:12px}.book-ico svg{width:19px;height:19px}.book-txt b{font-size:.9rem}.book-txt small{font-size:.74rem}}
 @keyframes portrait-in{from{clip-path:circle(0% at 50% 78%);translate:0 40px}to{clip-path:circle(120% at 50% 60%);translate:0 0}}
 @keyframes halo-morph{
   33%{border-radius:58% 42% 52% 48%/45% 58% 42% 55%}
@@ -494,13 +527,10 @@ label{transition:color .2s}
 .turnstile:has(.cf-turnstile:empty){display:none}
 .form-note{grid-column:1/-1;margin:-4px 0 0;color:var(--muted);font-size:.85rem}
 .status{font-size:.95rem;font-weight:500}
-/* "Book a call" (Cal.com popup): card under the contact intro, plus a quiet link under the hero buttons */
+/* "Book a call" (Cal.com popup) card under the contact intro */
 .book-call{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 20px;padding:18px 20px;border-radius:16px;background:var(--paper);border:1px solid var(--line)}
 .book-call p{margin:0;max-width:30ch;color:var(--muted)}
 .book-call strong{display:block;color:var(--ink);font-weight:600}
-.book-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:var(--accent);font-weight:600;font-size:.95rem;text-underline-offset:4px}
-.book-link svg{width:16px;height:16px;transition:translate .25s}
-.book-link:hover svg{translate:3px 0}
 @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
 @media (max-width:560px){form{grid-template-columns:1fr}}
 

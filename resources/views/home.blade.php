@@ -17,7 +17,6 @@
           <a class="btn btn-primary" href="#work">View my work</a>
           <a class="btn btn-ghost" href="#contact">Let’s work together</a>
         </div>
-        @if ($cal_link)<a class="book-link" href="https://cal.com/{{ $cal_link }}" data-book>or book a free 30-minute call<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>@endif
       </div>
 @unless ($portrait)
       <p class="hero-aside fade"><strong>Currently</strong>Supporting three clients across DTC advertising, lead generation, and marketing operations.</p>
@@ -32,6 +31,14 @@
       <a class="chat-bubble" href="#contact" aria-label="{{ $availability }} Get in touch.">
         <span class="chat-typing" aria-hidden="true"><i></i><i></i><i></i></span>
         <span class="chat-msg" aria-hidden="true"><b class="chat-dot"></b><span class="chat-text">{{ $availability }}</span></span>
+      </a>
+      @endif
+      @if ($cal_link)
+      {{-- Booking bubble at her shoulder: pops in after the chat bubble finishes typing and opens the Cal.com popup --}}
+      <a class="book-bubble" href="https://cal.com/{{ $cal_link }}" data-book>
+        <span class="book-ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path class="book-tick" d="M9 15.2l2 2 4-4.2"/></svg></span>
+        <span class="book-txt"><b>Book a free call</b><small>30 min · pick a time</small></span>
+        <svg class="book-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg>
       </a>
       @endif
       <figcaption class="hero-aside hero-card fade"><strong>Currently</strong>Supporting three clients across DTC advertising, lead generation, and marketing operations.</figcaption>

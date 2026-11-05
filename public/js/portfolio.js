@@ -273,7 +273,8 @@
     return Math.ceil(right-box.left+pad+1);
   }
   window.addEventListener('resize',function(){if(bubble.classList.contains('ready')&&!bubble.classList.contains('typing')) bubble.style.width=fitWidth()+'px'});
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){bubble.classList.add('ready'); bubble.style.width=fitWidth()+'px'; return}
+  function done(){document.dispatchEvent(new Event('hero:chat-done'))}   // the booking bubble follows it
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){bubble.classList.add('ready'); bubble.style.width=fitWidth()+'px'; done(); return}
   // One span per letter; plain spaces between words keep normal line wrapping
   text.textContent='';
   full.split(' ').forEach(function(word,w){
@@ -296,11 +297,31 @@
       setTimeout(function(){
         bubble.style.cssText='width:'+toW+'px';
         chars.forEach(function(ch,i){setTimeout(function(){ch.classList.add('on')},i*34)});
+        setTimeout(done,chars.length*34+350);
       },560);
     },1300);
   }
   var root=document.documentElement;
   function afterLoad(){setTimeout(run,1700)}   // the portrait's reveal runs ~1.75s after the loader clears
+  if(!root.classList.contains('loading')) afterLoad();
+  else new MutationObserver(function(_,obs){if(!root.classList.contains('loading')){obs.disconnect(); afterLoad()}}).observe(root,{attributes:true,attributeFilter:['class']});
+})();
+
+// Hero booking bubble: pops in once the chat bubble has finished typing (or after the portrait reveal if there is no chat bubble)
+(function(){
+  var book=document.querySelector('.book-bubble');
+  if(!book) return;
+  var shown=false;
+  function show(){
+    if(shown) return; shown=true;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){book.classList.add('ready'); return}
+    book.classList.add('ready','pop');
+    book.addEventListener('animationend',function(e){if(e.animationName==='bubble-pop') book.classList.remove('pop')});
+  }
+  document.addEventListener('hero:chat-done',show);
+  if(document.querySelector('.chat-bubble')) return;
+  var root=document.documentElement;
+  function afterLoad(){setTimeout(show,2000)}
   if(!root.classList.contains('loading')) afterLoad();
   else new MutationObserver(function(_,obs){if(!root.classList.contains('loading')){obs.disconnect(); afterLoad()}}).observe(root,{attributes:true,attributeFilter:['class']});
 })();
