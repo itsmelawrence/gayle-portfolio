@@ -153,7 +153,7 @@
     <div class="wrap contact-grid">
       <div class="contact-info">
         <h2 id="contact-title">Tell me what you’re working on.</h2>
-        <p class="lede">Share a little about your business and where you need help. I’ll reply by email within {{ $contact['response_time'] ?: ph('[response time]') }}.</p>
+        <p class="lede">Share a little about your business and where you need help. I’ll reply by email within {{ $contact['response_time'] ?: ph('[response time]') }}.@if ($cal_link) Prefer to talk it through? Book a free 30-minute call instead.@endif</p>
         <ul class="links">
           @include('partials.contact-link', ['label' => 'Email', 'value' => $contact['email'], 'href' => 'mailto:'.$contact['email'], 'placeholder' => 'email address'])
           @include('partials.contact-link', ['label' => 'LinkedIn', 'value' => $contact['linkedin'], 'href' => $contact['linkedin'], 'placeholder' => 'LinkedIn URL'])
@@ -162,7 +162,15 @@
         </ul>
       </div>
       @php($sent = session('inquiry_sent'))
-      <div class="inquiry">
+      <div class="reach">
+      @if ($cal_link)
+      {{-- Message / Book a call switch. portfolio.js loads the Cal.com calendar the first time the booking tab opens. --}}
+      <div class="reach-tabs" role="tablist" aria-label="How would you like to get in touch?">
+        <button type="button" role="tab" id="tab-message" aria-controls="panel-message" aria-selected="true">Send a message</button>
+        <button type="button" role="tab" id="tab-book" aria-controls="panel-book" aria-selected="false" tabindex="-1">Book a call</button>
+      </div>
+      @endif
+      <div class="inquiry" @if ($cal_link) id="panel-message" role="tabpanel" aria-labelledby="tab-message" @endif>
       <form id="inquiry" action="{{ route('inquiries.store') }}" method="POST" @if ($sent) hidden @endif>
         @csrf
         {{-- Honeypot: hidden from people and screen readers; bots that fill it are dropped quietly --}}
@@ -223,6 +231,13 @@
           <li><b>3</b><span>We agree on a plan before any work starts.</span></li>
         </ol>
       </div>
+      </div>
+      @if ($cal_link)
+      <div class="booking" id="panel-book" role="tabpanel" aria-labelledby="tab-book" tabindex="0" hidden>
+        <div class="cal-inline" id="cal-inline" data-cal-link="{{ $cal_link }}"><p class="cal-loading" role="status">Loading the calendar…</p></div>
+        <p class="form-note">Calendar not showing? <a href="https://cal.com/{{ $cal_link }}" target="_blank" rel="noopener">Book on Cal.com</a> instead. Bookings are handled by Cal.com; see the <a href="{{ route('privacy') }}">privacy policy</a>.</p>
+      </div>
+      @endif
       </div>
     </div>
   </section>

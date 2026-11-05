@@ -203,6 +203,42 @@
       .finally(function(){btn.disabled=false; btn.classList.remove('loading'); if(window.turnstile) window.turnstile.reset()});
   });
   })();
+
+  // Contact: switch between the inquiry form and the Cal.com booking calendar, which loads the first time it's shown
+  (function(){
+  var tabs=[].slice.call(document.querySelectorAll('.reach-tabs [role=tab]')), host=document.getElementById('cal-inline');
+  if(!tabs.length||!host) return;
+  var loaded=false;
+  function loadCal(){
+    if(loaded) return; loaded=true;
+    var link=host.dataset.calLink, ns='book';
+    // Cal.com's embed loader (queues calls until embed.js arrives)
+    (function(C,A,L){var p=function(a,ar){a.q.push(ar)};var d=C.document;C.Cal=C.Cal||function(){var cal=C.Cal;var ar=arguments;if(!cal.loaded){cal.ns={};cal.q=cal.q||[];d.head.appendChild(d.createElement('script')).src=A;cal.loaded=true}if(ar[0]===L){var api=function(){p(api,arguments)};var namespace=ar[1];api.q=api.q||[];if(typeof namespace==='string'){cal.ns[namespace]=cal.ns[namespace]||api;p(cal.ns[namespace],ar);p(cal,['initNamespace',namespace])}else p(cal,ar);return}p(cal,ar)}})(window,'https://app.cal.com/embed/embed.js','init');
+    Cal('init',ns,{origin:'https://app.cal.com'});
+    Cal.ns[ns]('on',{action:'linkReady',callback:function(){var l=host.querySelector('.cal-loading'); if(l) l.remove()}});
+    Cal.ns[ns]('inline',{elementOrSelector:host,calLink:link,config:{layout:'month_view'}});
+    var theme=document.documentElement.dataset.theme;
+    Cal.ns[ns]('ui',{layout:'month_view',hideEventTypeDetails:false,theme:theme==='light'||theme==='dark'?theme:undefined,cssVarsPerTheme:{light:{'cal-brand':'#7C0E44'},dark:{'cal-brand':'#D49A9A'}}});
+  }
+  function select(tab,focus){
+    tabs.forEach(function(t){
+      var on=t===tab, panel=document.getElementById(t.getAttribute('aria-controls'));
+      t.setAttribute('aria-selected',on); t.tabIndex=on?0:-1; panel.hidden=!on;
+    });
+    if(focus) tab.focus();
+    if(tab.id==='tab-book') loadCal();
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){select(t)});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d) return;
+      e.preventDefault(); select(tabs[(i+d+tabs.length)%tabs.length],true);
+    });
+  });
+  // Links to #book open the booking tab
+  function fromHash(){if(location.hash==='#book'){select(document.getElementById('tab-book')); document.getElementById('contact').scrollIntoView()}}
+  window.addEventListener('hashchange',fromHash); fromHash();
+  })();
 })();
 
 // Pipeline stages on small screens: as the next card slides over a stuck card, the covered one shrinks and dims (--cover 0..1)

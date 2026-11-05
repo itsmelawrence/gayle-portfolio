@@ -25,7 +25,7 @@
     </li>
     <li>
       <h2>Who else processes it</h2>
-      <p>The site runs on trusted platforms, such as Laravel Cloud for hosting and Cloudflare for security, along with a small number of service providers that deliver email and fonts. They handle your information only to keep the site and form working, on my behalf, and never for their own marketing.</p>
+      <p>The site runs on trusted platforms, such as Laravel Cloud for hosting and Cloudflare for security, along with a small number of service providers that deliver email and fonts. If you book a call, Cal.com handles the booking and receives the details you enter there. They handle your information only to keep the site, form, and bookings working, on my behalf, and never for their own marketing.</p>
     </li>
     <li>
       <h2>Cookies and storage</h2>
