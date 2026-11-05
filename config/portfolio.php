@@ -33,7 +33,7 @@ return [
         'response_time' => env('PORTFOLIO_RESPONSE_TIME'),
     ],
 
-    // Cal.com event shown in the contact section's "Book a call" tab (user/event-slug). Set PORTFOLIO_CAL_LINK to empty to hide the tab.
+    // Cal.com event opened by the "Book a call" links (hero and contact) as a popup (user/event-slug). Set PORTFOLIO_CAL_LINK to empty to hide them.
     'cal_link' => env('PORTFOLIO_CAL_LINK', 'florence-gayle-venancio-mfbnpc/30min'),
 
     'categories' => [

@@ -17,6 +17,7 @@
           <a class="btn btn-primary" href="#work">View my work</a>
           <a class="btn btn-ghost" href="#contact">Let’s work together</a>
         </div>
+        @if ($cal_link)<a class="book-link" href="https://cal.com/{{ $cal_link }}" data-book>or book a free 30-minute call<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>@endif
       </div>
 @unless ($portrait)
       <p class="hero-aside fade"><strong>Currently</strong>Supporting three clients across DTC advertising, lead generation, and marketing operations.</p>
@@ -153,7 +154,13 @@
     <div class="wrap contact-grid">
       <div class="contact-info">
         <h2 id="contact-title">Tell me what you’re working on.</h2>
-        <p class="lede">Share a little about your business and where you need help. I’ll reply by email within {{ $contact['response_time'] ?: ph('[response time]') }}.@if ($cal_link) Prefer to talk it through? Book a free 30-minute call instead.@endif</p>
+        <p class="lede">Share a little about your business and where you need help. I’ll reply by email within {{ $contact['response_time'] ?: ph('[response time]') }}.</p>
+        @if ($cal_link)
+        <div class="book-call">
+          <p><strong>Prefer to talk it through?</strong> Pick a time for a free 30-minute call.</p>
+          <a class="btn btn-ghost" href="https://cal.com/{{ $cal_link }}" data-book>Book a call</a>
+        </div>
+        @endif
         <ul class="links">
           @include('partials.contact-link', ['label' => 'Email', 'value' => $contact['email'], 'href' => 'mailto:'.$contact['email'], 'placeholder' => 'email address'])
           @include('partials.contact-link', ['label' => 'LinkedIn', 'value' => $contact['linkedin'], 'href' => $contact['linkedin'], 'placeholder' => 'LinkedIn URL'])
@@ -162,15 +169,7 @@
         </ul>
       </div>
       @php($sent = session('inquiry_sent'))
-      <div class="reach">
-      @if ($cal_link)
-      {{-- Message / Book a call switch. portfolio.js loads the Cal.com calendar the first time the booking tab opens. --}}
-      <div class="reach-tabs" role="tablist" aria-label="How would you like to get in touch?">
-        <button type="button" role="tab" id="tab-message" aria-controls="panel-message" aria-selected="true">Send a message</button>
-        <button type="button" role="tab" id="tab-book" aria-controls="panel-book" aria-selected="false" tabindex="-1">Book a call</button>
-      </div>
-      @endif
-      <div class="inquiry" @if ($cal_link) id="panel-message" role="tabpanel" aria-labelledby="tab-message" @endif>
+      <div class="inquiry">
       <form id="inquiry" action="{{ route('inquiries.store') }}" method="POST" @if ($sent) hidden @endif>
         @csrf
         {{-- Honeypot: hidden from people and screen readers; bots that fill it are dropped quietly --}}
@@ -231,13 +230,6 @@
           <li><b>3</b><span>We agree on a plan before any work starts.</span></li>
         </ol>
       </div>
-      </div>
-      @if ($cal_link)
-      <div class="booking" id="panel-book" role="tabpanel" aria-labelledby="tab-book" tabindex="0" hidden>
-        <div class="cal-inline" id="cal-inline" data-cal-link="{{ $cal_link }}"><p class="cal-loading" role="status">Loading the calendar…</p></div>
-        <p class="form-note">Calendar not showing? <a href="https://cal.com/{{ $cal_link }}" target="_blank" rel="noopener">Book on Cal.com</a> instead. Bookings are handled by Cal.com; see the <a href="{{ route('privacy') }}">privacy policy</a>.</p>
-      </div>
-      @endif
       </div>
     </div>
   </section>

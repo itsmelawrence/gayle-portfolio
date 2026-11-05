@@ -70,16 +70,16 @@ class PortfolioPageTest extends TestCase
             ->assertSee('challenges.cloudflare.com/turnstile/v0/api.js', false);
     }
 
-    public function test_booking_tab_renders_only_when_a_cal_link_is_set(): void
+    public function test_book_a_call_links_render_only_when_a_cal_link_is_set(): void
     {
         config(['portfolio.cal_link' => 'someone/30min']);
         $this->get('/')
-            ->assertSee('id="tab-book"', false)
-            ->assertSee('data-cal-link="someone/30min"', false)
-            ->assertSee('https://cal.com/someone/30min', false);
+            ->assertSee('href="https://cal.com/someone/30min" data-book', false)
+            ->assertSee('class="book-call"', false)
+            ->assertSee('class="book-link"', false);
 
         config(['portfolio.cal_link' => null]);
-        $this->get('/')->assertDontSee('id="tab-book"', false)->assertDontSee('cal-inline', false);
+        $this->get('/')->assertDontSee('data-book', false)->assertDontSee('cal.com', false);
     }
 
     public function test_privacy_policy_page_renders_and_is_linked(): void

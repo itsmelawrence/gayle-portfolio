@@ -494,23 +494,14 @@ label{transition:color .2s}
 .turnstile:has(.cf-turnstile:empty){display:none}
 .form-note{grid-column:1/-1;margin:-4px 0 0;color:var(--muted);font-size:.85rem}
 .status{font-size:.95rem;font-weight:500}
-/* Message / Book a call switch and the inline Cal.com calendar */
-.reach{display:grid;gap:24px;align-content:start;min-width:0}
-.reach-tabs{display:inline-flex;justify-self:start;gap:4px;padding:4px;border-radius:999px;background:var(--paper);border:1px solid var(--line)}
-.reach-tabs button{font:inherit;font-weight:600;font-size:.95rem;color:var(--muted);background:none;border:0;border-radius:999px;padding:10px 20px;cursor:pointer;transition:background .25s,color .25s}
-.reach-tabs button:hover{color:var(--ink)}
-.reach-tabs button[aria-selected="true"]{background:var(--btn);color:var(--btn-ink)}
-.reach-tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.no-js .reach-tabs{display:none}
-.booking{display:grid;gap:16px}
-.booking[hidden]{display:none}
-.booking:focus{outline:none}
-.cal-inline{min-height:520px;border-radius:16px;overflow:hidden;background:var(--paper);border:1px solid var(--line)}
-.cal-inline iframe{display:block}
-.cal-loading{display:grid;place-items:center;min-height:520px;margin:0;color:var(--muted)}
-@media (prefers-reduced-motion:no-preference){.booking:not([hidden]){animation:field-in .5s cubic-bezier(.2,.7,.1,1)}}
+/* "Book a call" (Cal.com popup): card under the contact intro, plus a quiet link under the hero buttons */
+.book-call{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 20px;padding:18px 20px;border-radius:16px;background:var(--paper);border:1px solid var(--line)}
+.book-call p{margin:0;max-width:30ch;color:var(--muted)}
+.book-call strong{display:block;color:var(--ink);font-weight:600}
+.book-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;color:var(--accent);font-weight:600;font-size:.95rem;text-underline-offset:4px}
+.book-link svg{width:16px;height:16px;transition:translate .25s}
+.book-link:hover svg{translate:3px 0}
 @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
-@media (max-width:420px){.reach-tabs{justify-self:stretch}.reach-tabs button{flex:1;padding-inline:12px}}
 @media (max-width:560px){form{grid-template-columns:1fr}}
 
 /* ---------- Footer ---------- */
